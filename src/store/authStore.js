@@ -7,10 +7,10 @@ export const useAuthStore = create( persist((set, get) => ({
       isAuth: false,
 
       setProfile: (profile) => set({ profile }),
-      setToken: (token) => set( {
+      setToken: (token) => set({
         token,
         isAuth: true,
-      } ),
+      }),
       removeToken: () => set({ token: "" , isAuth: false}),
     }),
     {

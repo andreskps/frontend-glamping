@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+
+import { useNavigate,Link } from "react-router-dom";
 import { login, profile } from "../../services/authService";
 import { useAuthStore } from "../../store/authStore";
 
@@ -7,6 +8,7 @@ const FormLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const setToken = useAuthStore((state) => state.setToken);
   const setProfile = useAuthStore((state) => state.setProfile);
@@ -23,8 +25,10 @@ const FormLogin = () => {
       setToken(token);
 
       const user = await profile();
-
+      
       setProfile(user);
+
+      navigate("/admin");
     } catch (error) {
       setError(error.response.data.message);
     }

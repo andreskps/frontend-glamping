@@ -13,7 +13,9 @@ export const login = async (data) => {
 export const profile = async () => {
   try {
     const response = await clienteAxios.get("/auth/profile");
+  
     return response.data;
+
   } catch (error) {
     throw error;
   }
