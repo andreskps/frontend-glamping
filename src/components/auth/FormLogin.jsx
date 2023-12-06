@@ -1,25 +1,56 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { login, profile } from "../../services/authService";
+import { useAuthStore } from "../../store/authStore";
 
 const FormLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
 
-  const handleLogin = (e) => {
+  const setToken = useAuthStore((state) => state.setToken);
+  const setProfile = useAuthStore((state) => state.setProfile);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+
+    try {
+      const token = await login({
+        email,
+        password,
+      });
+
+      setToken(token);
+
+      const user = await profile();
+
+      setProfile(user);
+    } catch (error) {
+      setError(error.response.data.message);
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-light-gray py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Inicia sesión</h2>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Inicia sesión
+          </h2>
         </div>
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+            <strong className="font-bold">Error!</strong>
+            <span className="block sm:inline"> {error}</span>
+          </div>
+        )}
+
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
-              <label htmlFor="email" className="sr-only">Correo electrónico</label>
+              <label htmlFor="email" className="sr-only">
+                Correo electrónico
+              </label>
               <input
                 id="email"
                 name="email"
@@ -33,7 +64,9 @@ const FormLogin = () => {
               />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">Contraseña</label>
+              <label htmlFor="password" className="sr-only">
+                Contraseña
+              </label>
               <input
                 id="password"
                 name="password"
@@ -56,13 +89,19 @@ const FormLogin = () => {
                 type="checkbox"
                 className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
               />
-              <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">
+              <label
+                htmlFor="remember_me"
+                className="ml-2 block text-sm text-gray-900"
+              >
                 Recuérdame
               </label>
             </div>
 
             <div className="text-sm">
-              <Link to="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <Link
+                to="/forgot-password"
+                className="font-medium text-indigo-600 hover:text-indigo-500"
+              >
                 ¿Olvidaste tu contraseña?
               </Link>
             </div>
