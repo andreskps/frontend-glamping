@@ -2,6 +2,7 @@ import { Outlet, Navigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import Sidebar from "../components/Admin/sidebar/Sidebar";
 import Header from "../components/Admin/Header/Header";
+import Theme from "../components/Theme";
 
 // Hook personalizado para la autorización
 const useAuthorization = (requiredRoles) => {
@@ -27,6 +28,7 @@ const AdminLayout = ({ requiredRoles }) => {
       <Header />
       <Sidebar />
       <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
+      
         <Outlet />
       </div>
     </>
