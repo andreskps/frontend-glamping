@@ -20,18 +20,44 @@ const Sidebar = () => {
     {
       name: "Mis propiedades",
       icon: "property-icon",
-      subLinks: ["Calendarios", "Políticas"],
+      subLinks: [{
+        name:"Propiedades",
+        link:"/admin/propiedades",
+      },{
+        name:"Calendario",
+        link:"/admin/calendario",
+      },{
+        name:"Politicas",
+        link:"/admin/politicas",
+      },{
+        name:"Tarifas",
+        link:"/admin/tarifas",
+      },
+    ],
     },
     {
       name: "Catálogo",
       icon: "catalog-icon",
-      subLinks: ["Productos", "Servicios"],
+      subLinks: [{
+        name:"Productos",
+        link:"/admin/productos",
+      },{
+        name:"Servicios",
+        link:"/admin/servicios",
+      }
+    ],
     },
     {
       name:"Marketing",
       icon:"marketing-icon",
-      subLinks:["Promociones","Cupones"]
-
+      subLinks:[{
+        name:"Promociones",
+        link:"/admin/promociones",
+      },{
+        name:"Cupones",
+        link:"/admin/cupones",
+      },
+    ],
     },
     {
       name: "Clientes",

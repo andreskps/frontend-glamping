@@ -29,6 +29,7 @@ function App() {
           element={<AdminLayout requiredRoles={["owner"]} />}
         >
           <Route index element={<DashboardPage />} />
+          <Route path="propiedades" element={<div>Propiedades page</div>} />
         </Route>
       </Routes>
     </BrowserRouter>
