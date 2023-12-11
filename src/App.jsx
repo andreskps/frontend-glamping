@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import AdminLayout from "./layouts/AdminLayout";
+import PropertiesList from "./components/properties/PropertiesList";
+import ProductsPage from "./pages/ProductsPage";
 
 function App() {
   if (localStorage.getItem("theme") === "dark") {
@@ -29,7 +31,8 @@ function App() {
           element={<AdminLayout requiredRoles={["owner"]} />}
         >
           <Route index element={<DashboardPage />} />
-          <Route path="propiedades" element={<div>Propiedades page</div>} />
+          <Route path="propiedades" element={<PropertiesList/>} />
+          <Route path="productos" element={<ProductsPage/>} />
         </Route>
       </Routes>
     </BrowserRouter>

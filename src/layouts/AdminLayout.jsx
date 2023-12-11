@@ -28,6 +28,7 @@ const AdminLayout = ({ requiredRoles }) => {
       <Header />
       <Sidebar />
       <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:ps-72">
+      {/* <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto"> */}
       
         <Outlet />
       </div>
