@@ -5,6 +5,7 @@ import DashboardPage from "./pages/DashboardPage";
 import AdminLayout from "./layouts/AdminLayout";
 import PropertiesList from "./components/properties/PropertiesList";
 import ProductsPage from "./pages/ProductsPage";
+import PropertiesPage from "./pages/PropertiesPage";
 
 function App() {
   if (localStorage.getItem("theme") === "dark") {
@@ -31,7 +32,7 @@ function App() {
           element={<AdminLayout requiredRoles={["owner"]} />}
         >
           <Route index element={<DashboardPage />} />
-          <Route path="propiedades" element={<PropertiesList/>} />
+          <Route path="propiedades" element={<PropertiesPage/>} />
           <Route path="productos" element={<ProductsPage/>} />
         </Route>
       </Routes>

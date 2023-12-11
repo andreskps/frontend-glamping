@@ -8,7 +8,7 @@ const AccordionLink = ({ name, icon, subLinks }) => {
         className="hs-accordion-toggle hs-accordion-active:text-slate-900 hs-accordion-active:hover:bg-transparent w-full text-start flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-green-200 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
       >
         <svg
-          class="flex-shrink-0 w-4 h-4"
+          className="flex-shrink-0 w-4 h-4"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
