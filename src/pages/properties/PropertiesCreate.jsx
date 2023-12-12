@@ -1,13 +1,19 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import MultipleImageUpload from "../../components/MultipleImageUpload";
+
+import { createProperty } from "../../services/propertyService";
 
 const PropertiesCreate = () => {
   const [property, setProperty] = useState({
     name: "",
     description: "",
     location: "",
-    capacity: "",
+    capacity: 0,
   });
+
+  const navigate = useNavigate();
 
   const [prices, setPrices] = useState([{ description: "", price: "" }]);
 
@@ -23,10 +29,27 @@ const PropertiesCreate = () => {
     setPrices(newPrices);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(property);
-    console.log(prices);
+    const data = {
+      ...property,
+      prices,
+    };
+
+    try {
+      const response = await createProperty(data);
+
+      navigate("/admin/propiedades");
+
+      setProperty({
+        name: "",
+        description: "",
+        location: "",
+        capacity: 0,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Función para añadir una nueva tarifa
