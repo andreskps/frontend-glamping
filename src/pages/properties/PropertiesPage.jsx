@@ -1,8 +1,9 @@
 
 
 import React from 'react'
-import PropertiesList from '../components/properties/PropertiesList'
-import PropertiesTable from '../components/properties/PropertiesTable'
+
+import PropertiesTable from '../../components/properties/PropertiesTable'
+import { Link,Outlet } from 'react-router-dom'
 
 const PropertiesPage = () => {
   return (
@@ -13,7 +14,7 @@ const PropertiesPage = () => {
           <div className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200 dark:border-gray-700">
             <div className="sm:col-span-1">
               <label
-                for="hs-as-table-product-review-search"
+                htmlFor="hs-as-table-product-review-search"
                 className="sr-only"
               >
                 Search
@@ -44,9 +45,9 @@ const PropertiesPage = () => {
             <div className="sm:col-span-2 md:grow">
               <div className="flex justify-end gap-x-2">
                 <div className="hs-dropdown relative inline-block [--placement:bottom-right]">
-                  <a
+                  <Link
                     className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                    href="#"
+                    to="crear"
                   >
                     <svg
                       className="flex-shrink-0 w-3 h-3"
@@ -64,7 +65,7 @@ const PropertiesPage = () => {
                       />
                     </svg>
                     Crear
-                  </a>
+                  </Link>
                   <div
                     className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden mt-2 divide-y divide-gray-200 min-w-[12rem] z-10 bg-white shadow-md rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700"
                     aria-labelledby="hs-as-table-table-export-dropdown"
@@ -313,6 +314,7 @@ const PropertiesPage = () => {
         </div>
       </div>
     </div>
+
   </div>
   )
 }

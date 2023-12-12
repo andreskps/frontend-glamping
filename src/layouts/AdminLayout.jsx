@@ -16,7 +16,7 @@ const useAuthorization = (requiredRoles) => {
   return { isAuth, hasRequiredRole };
 };
 
-const AdminLayout = ({ requiredRoles }) => {
+const ProtectedRoutes = ({ requiredRoles }) => {
   const { isAuth, hasRequiredRole } = useAuthorization(requiredRoles);
 
   if (!isAuth || !hasRequiredRole) {
@@ -36,4 +36,4 @@ const AdminLayout = ({ requiredRoles }) => {
   );
 };
 
-export default AdminLayout;
+export default ProtectedRoutes;
