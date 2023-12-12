@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import MultipleImageUpload from "../../components/MultipleImageUpload";
 
 import { createProperty } from "../../services/propertyService";
@@ -11,6 +11,16 @@ const PropertiesCreate = () => {
     description: "",
     location: "",
     capacity: 0,
+  });
+
+  const queryClient = useQueryClient();
+
+  const addProperty = useMutation({
+     mutationFn: createProperty,
+        onSuccess: () => {
+        queryClient.invalidateQueries("properties");
+    },
+
   });
 
   const navigate = useNavigate();
@@ -37,7 +47,8 @@ const PropertiesCreate = () => {
     };
 
     try {
-      const response = await createProperty(data);
+    
+        await addProperty.mutateAsync(data);
 
       navigate("/admin/propiedades");
 
@@ -154,13 +165,13 @@ const PropertiesCreate = () => {
               </button>
             </div>
           </div>
-
+{/* 
           <div className="container mx-auto p-4">
             <h1 className="text-2xl font-semibold mb-4">
               Carga Múltiple de Imágenes
             </h1>
             <MultipleImageUpload onUpload={handleImageUpload} />
-          </div>
+          </div> */}
           <div className="mt-5 flex justify-end gap-x-2">
             <button
               type="button"
