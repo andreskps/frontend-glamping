@@ -26,6 +26,7 @@ const FormLogin = () => {
 
       const user = await profile();
 
+  
       setProfile(user);
 
       navigate("/admin");

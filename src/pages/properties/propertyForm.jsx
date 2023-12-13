@@ -1,0 +1,194 @@
+// PropertyForm.js
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
+import MultipleImageUpload from "../../components/MultipleImageUpload";
+import {
+  getProperty,
+  createProperty,
+  updateProperty,
+} from "../../services/propertyService";
+
+const PropertyForm = ({ isEditing }) => {
+  const { id } = useParams();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const {
+    isLoading,
+    error,
+    data: property,
+  } = useQuery({
+    queryKey: ["property", id],
+    queryFn: () => (isEditing ? getProperty(id) : null),
+    enabled: isEditing,
+  });
+
+  const mutation = useMutation({
+    mutationFn: isEditing ? updateProperty : createProperty,
+    onSuccess: () => {
+      queryClient.invalidateQueries("properties");
+      toast.success(
+        `Propiedad ${isEditing ? "actualizada" : "creada"} correctamente`
+      );
+      navigate("/admin/propiedades");
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    }
+  }
+    
+  );
+  const [formState, setFormState] = useState({
+    name: "",
+    description: "",
+    location: "",
+    capacity: 0,
+    prices: [{ description: "", price: "" }],
+  });
+
+  useEffect(() => {
+    if (isEditing && property) {
+      setFormState(property);
+    }
+  }, [isEditing, property]);
+
+  const handleImageUpload = (files) => {
+    console.log("Imágenes cargadas:", files);
+  };
+
+  const handleInputChange = (key, value) => {
+    setFormState({ ...formState, [key]: value });
+  };
+
+  const handlePriceChange = (index, key, value) => {
+    const newPrices = [...formState.prices];
+    newPrices[index][key] = value;
+    setFormState({ ...formState, prices: newPrices });
+  };
+
+  const addPrice = () => {
+    setFormState({
+      ...formState,
+      prices: [...formState.prices, { description: "", price: "" }],
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formState);
+    mutation.mutate(formState);
+  };
+
+  return (
+    <div className="max-w-2xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+      <div className="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200">
+            {isEditing ? "Editar" : "Crear"} propiedad
+          </h2>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="mt-2 space-y-3">
+            <input
+              type="text"
+              className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+              placeholder="Nombre"
+              value={formState.name}
+              onChange={(e) => handleInputChange("name", e.target.value)}
+            />
+            <textarea
+              className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+              placeholder="Descripción"
+              value={formState.description}
+              onChange={(e) => handleInputChange("description", e.target.value)}
+            />
+            <input
+              type="text"
+              className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+              placeholder="Dirección"
+              value={formState.location}
+              onChange={(e) => handleInputChange("location", e.target.value)}
+            />
+            <input
+              type="number"
+              className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+              placeholder="Capacidad"
+              value={formState.capacity}
+              onChange={(e) => handleInputChange("capacity", e.target.value)}
+            /> 
+          </div>
+
+            <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
+                <label className="inline-block text-sm font-medium dark:text-white">
+                    Tarifas
+                </label>
+                <div className="mt-2 space-y-3">
+                    {formState.prices.map((price, index) => (
+                        <div key={index} className="flex space-x-3">
+                            <input
+                                type="text"
+                                className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                                placeholder="Descripción"
+                                value={price.description}
+                                onChange={(e) =>
+                                    handlePriceChange(index, "description", e.target.value)
+                                }
+                            />
+                            <input
+                                type="number"
+                                className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                                placeholder="Precio"
+                                value={price.price}
+                                onChange={(e) =>
+                                    handlePriceChange(index, "price", e.target.value)
+                                }
+                            />
+                        </div>
+                    ))}
+                    <button
+                        type="button"
+                        className="text-sm text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
+                        onClick={addPrice}
+                    >
+                        Agregar tarifa
+                    </button>
+                </div>
+            </div>
+
+            {/* <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
+                <label className="inline-block text-sm font-medium dark:text-white">
+                    Imágenes
+                </label>
+                <div className="mt-2 space-y-3">
+                    <MultipleImageUpload onUpload={handleImageUpload} />
+                </div>
+            </div> */}
+
+            <div className="mt-8 flex justify-end gap-x-2">
+                <button
+                    type="button"
+                    className="py-2 px-4 rounded-md border border-gray-300 text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
+                    onClick={() => navigate("/admin/propiedades")}
+                >
+                    Cancelar
+                </button>
+                <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                >
+                    {isEditing ? "Actualizar" : "Crear"}
+                </button>
+            </div>
+            
+          {/* <MultipleImageUpload onUpload={handleImageUpload} /> */}
+          {/* ... (rest of your form components) */}
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default PropertyForm;

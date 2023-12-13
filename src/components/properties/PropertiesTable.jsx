@@ -1,13 +1,15 @@
 import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Table from "../Table/Table";
-import { getProperties } from "../../services/propertyService";
+import { getPropertiesByOwner} from "../../services/propertyService";
+
 
 const PropertiesTable = () => {
 
+
   const { isLoading, error, data } = useQuery({
     queryKey:["properties"],
-    queryFn: getProperties,  
+    queryFn: getPropertiesByOwner
   })
 
 

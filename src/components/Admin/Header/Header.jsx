@@ -1,18 +1,40 @@
 import {useState,useEffect} from "react";
+import { getPropertiesByOwner } from "../../../services/propertyService";
 import { CiSettings ,CiLogout} from "react-icons/ci";
-
+import {useQueryClient,useQuery} from "@tanstack/react-query";
 const Header = () => {
+ 
+  const queryClient = useQueryClient();
+
   const [properties, setProperties] = useState([]);
 
-  // Simulando la obtención de datos del usuario
+  const { isLoading, error, data } = useQuery({
+
+    queryKey: ["properties"],
+    queryFn: getPropertiesByOwner,
+    onSuccess: (data) => {
+      setProperties(data);
+    },
+  });
+
   useEffect(() => {
-    setProperties([
-      { id: 1, name: "Propiedad 1" },
-      { id: 2, name: "Propiedad 2" },
-      { id: 3, name: "Propiedad 3" },
-      // ... más propiedades
-    ]);
-  }, []);
+    if (data) {
+      setProperties(data);
+    }
+  }
+
+  , [data]);
+
+
+  if (isLoading) return "Loading...";
+
+
+  if (error) return "An error has occurred: " + error.message;
+
+  
+
+
+  
   return (
     <>
       <header className="sticky top-0 inset-x-0 flex flex-wrap sm:justify-start sm:flex-nowrap z-[48] w-full bg-white border-b text-sm py-2.5 sm:py-4 lg:ps-64 dark:bg-gray-800 dark:border-gray-700">

@@ -9,6 +9,7 @@ import PropertiesPage from "./pages/properties/PropertiesPage";
 import PropertiesCreate from "./pages/properties/PropertiesCreate";
 import ProtectedRoutes from "./layouts/AdminLayout";
 import {Toaster} from "react-hot-toast";
+import PropertyEdit from "./pages/properties/PropertyEdit";
 
 function App() {
   if (localStorage.getItem("theme") === "dark") {
@@ -38,7 +39,7 @@ function App() {
           <Route index element={<DashboardPage />} />
           <Route path="propiedades" element={<PropertiesPage />} />
           <Route path="propiedades/crear" element={<PropertiesCreate />} />
-          <Route path="propiedades/editar/:id" element={<h1>Actualizar propiedad</h1>} />
+          <Route path="propiedades/editar/:id" element={<PropertyEdit/>} />
           <Route path="productos" element={<ProductsPage />} />
         </Route>
       </Routes>
