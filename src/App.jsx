@@ -8,6 +8,7 @@ import ProductsPage from "./pages/ProductsPage";
 import PropertiesPage from "./pages/properties/PropertiesPage";
 import PropertiesCreate from "./pages/properties/PropertiesCreate";
 import ProtectedRoutes from "./layouts/AdminLayout";
+import {Toaster} from "react-hot-toast";
 
 function App() {
   if (localStorage.getItem("theme") === "dark") {
@@ -17,7 +18,10 @@ function App() {
   }
 
   return (
+    
+
     <BrowserRouter>
+    <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route
           path="/"
@@ -30,6 +34,7 @@ function App() {
         <Route path="login" element={<LoginPage />} />
 
         <Route path="admin" element={<ProtectedRoutes requiredRoles={["owner"]} />}>
+       
           <Route index element={<DashboardPage />} />
           <Route path="propiedades" element={<PropertiesPage />} />
           <Route path="propiedades/crear" element={<PropertiesCreate />} />

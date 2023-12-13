@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 import MultipleImageUpload from "../../components/MultipleImageUpload";
 
 import { createProperty } from "../../services/propertyService";
@@ -48,7 +49,9 @@ const PropertiesCreate = () => {
 
     try {
     
-        await addProperty.mutateAsync(data);
+      await addProperty.mutateAsync(data);
+
+      toast.success("Propiedad creada correctamente");
 
       navigate("/admin/propiedades");
 
