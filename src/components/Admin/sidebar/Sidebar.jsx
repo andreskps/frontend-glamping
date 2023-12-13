@@ -1,27 +1,34 @@
 import React, { useState } from "react";
+import { AiOutlineBars } from "react-icons/ai";
 
 import SimpleLink from "./SimpleLink";
 import AccordionLink from "./AccordotionLink";
-
+import { FaPeopleRoof } from "react-icons/fa6";
+import { RxDashboard } from "react-icons/rx";
+import { BsHouseHeart } from "react-icons/bs";
+import { GrCatalog } from "react-icons/gr";
+import { HiSpeakerphone } from "react-icons/hi";
+import { IoPeopleOutline } from "react-icons/io5";
+import { HiOutlineDocumentReport } from "react-icons/hi";
 
 const Sidebar = () => {
 
   const links = [
     {
       name: "Inicio",
-      icon: "home-icon",
+      icon: <RxDashboard />,
       subLinks: [],
     },
     {
       name: "Reservas",
-      icon: "book-icon",
+      icon: <FaPeopleRoof />,
       subLinks: [],
     },
     {
-      name: "Mis propiedades",
-      icon: "property-icon",
+      name: "Propiedades",
+      icon: <BsHouseHeart />,
       subLinks: [{
-        name:"Propiedades",
+        name:"Ver Propiedades",
         link:"/admin/propiedades",
       },{
         name:"Calendario",
@@ -37,7 +44,7 @@ const Sidebar = () => {
     },
     {
       name: "Catálogo",
-      icon: "catalog-icon",
+      icon: <GrCatalog />,
       subLinks: [{
         name:"Productos",
         link:"/admin/productos",
@@ -49,7 +56,7 @@ const Sidebar = () => {
     },
     {
       name:"Marketing",
-      icon:"marketing-icon",
+      icon:<HiSpeakerphone/>,
       subLinks:[{
         name:"Promociones",
         link:"/admin/promociones",
@@ -61,12 +68,12 @@ const Sidebar = () => {
     },
     {
       name: "Clientes",
-      icon: "client-icon",
+      icon: <IoPeopleOutline />,
       subLinks: [],
     },
     {
       name: "Reportes",
-      icon: "report-icon",
+      icon: <HiOutlineDocumentReport />,
       subLinks: [],
     },
   
@@ -83,18 +90,7 @@ const Sidebar = () => {
         aria-label="Toggle navigation"
       >
         <span className="sr-only">Toggle Navigation</span>
-        <svg
-          className="flex-shrink-0 w-4 h-4"
-          width="16"
-          height="16"
-          fill="currentColor"
-          viewBox="0 0 16 16"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
-          />
-        </svg>
+        <AiOutlineBars className="w-6 h-6" />
       </button>
 
       <div
