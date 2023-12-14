@@ -1,15 +1,13 @@
-import {useState,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { getPropertiesByOwner } from "../../../services/propertyService";
-import { CiSettings ,CiLogout} from "react-icons/ci";
-import {useQueryClient,useQuery} from "@tanstack/react-query";
+import { CiSettings, CiLogout } from "react-icons/ci";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 const Header = () => {
- 
   const queryClient = useQueryClient();
 
   const [properties, setProperties] = useState([]);
 
   const { isLoading, error, data } = useQuery({
-
     queryKey: ["properties"],
     queryFn: getPropertiesByOwner,
     onSuccess: (data) => {
@@ -21,20 +19,12 @@ const Header = () => {
     if (data) {
       setProperties(data);
     }
-  }
-
-  , [data]);
-
+  }, [data]);
 
   if (isLoading) return "Loading...";
 
-
   if (error) return "An error has occurred: " + error.message;
 
-  
-
-
-  
   return (
     <>
       <header className="sticky top-0 inset-x-0 flex flex-wrap sm:justify-start sm:flex-nowrap z-[48] w-full bg-white border-b text-sm py-2.5 sm:py-4 lg:ps-64 dark:bg-gray-800 dark:border-gray-700">
@@ -84,9 +74,7 @@ const Header = () => {
             </div>
 
             <div className="flex flex-row items-center justify-end gap-2">
-        
-
-              <div className="hs-dropdown relative inline-flex [--placement:bottom-right]">
+              {/* <div className="hs-dropdown relative inline-flex [--placement:bottom-right]">
                 <button
                   id="hs-dropdown-with-header"
                   type="button"
@@ -129,6 +117,31 @@ const Header = () => {
                       Cerrar sesión
                     </a>
             
+                  </div>
+                </div>
+              </div> */}
+
+              <div className="avatar avatar-ring avatar-md">
+                <div className="dropdown-container">
+                  <div className="dropdown">
+                    <label
+                      className="btn btn-ghost flex cursor-pointer px-0"
+                      tabIndex="0"
+                    >
+                      <img
+                        src="https://i.pravatar.cc/150?u=a042581f4e29026024d"
+                        alt="avatar"
+                      />
+                    </label>
+                    <div className="dropdown-menu dropdown-menu-bottom-left">
+                      <a className="dropdown-item text-sm">Profile</a>
+                      <a tabIndex="-1" className="dropdown-item text-sm">
+                        Account settings
+                      </a>
+                      <a tabIndex="-1" className="dropdown-item text-sm">
+                        Subscriptions
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>

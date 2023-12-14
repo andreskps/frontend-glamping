@@ -1,5 +1,5 @@
 import React from "react";
-import Input from "../forms/Input";
+import Input from "../ui/forms/Input";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 

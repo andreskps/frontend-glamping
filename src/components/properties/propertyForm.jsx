@@ -9,8 +9,8 @@ import {
   createProperty,
   updateProperty,
 } from "../../services/propertyService";
-import Input from "../forms/Input";
-import Button from "../forms/Button";
+import Input from "../ui/forms/Input";
+import Button from "../ui/forms/Button";
 
 const PropertyForm = ({ isEditing }) => {
   const { id } = useParams();
