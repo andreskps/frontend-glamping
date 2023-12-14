@@ -9,6 +9,8 @@ import {
   createProperty,
   updateProperty,
 } from "../../services/propertyService";
+import Input from "../forms/Input";
+import Button from "../forms/Button";
 
 const PropertyForm = ({ isEditing }) => {
   const { id } = useParams();
@@ -77,8 +79,9 @@ const PropertyForm = ({ isEditing }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formState);
+
     mutation.mutate(formState);
+ 
   };
 
   return (
@@ -91,33 +94,39 @@ const PropertyForm = ({ isEditing }) => {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mt-2 space-y-3">
-            <input
+            <Input
               type="text"
-              className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
               placeholder="Nombre"
+              name="name"
+              id="name"
               value={formState.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
             />
-            <textarea
+            {/* <textarea
               className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
               placeholder="Descripción"
               value={formState.description}
-              onChange={(e) => handleInputChange("description", e.target.value)}
-            />
-            <input
+              name="description"
+              id="description"
+            /> */}
+
+            <Input
               type="text"
-              className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
               placeholder="Dirección"
+              name="location"
+              id="location"
               value={formState.location}
               onChange={(e) => handleInputChange("location", e.target.value)}
             />
-            <input
+          
+            <Input
               type="number"
-              className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
               placeholder="Capacidad"
+              name="capacity"
+              id="capacity"
               value={formState.capacity}
               onChange={(e) => handleInputChange("capacity", e.target.value)}
-            /> 
+            />
           </div>
 
             <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
@@ -127,19 +136,21 @@ const PropertyForm = ({ isEditing }) => {
                 <div className="mt-2 space-y-3">
                     {formState.prices.map((price, index) => (
                         <div key={index} className="flex space-x-3">
-                            <input
+                            <Input
                                 type="text"
-                                className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
                                 placeholder="Descripción"
                                 value={price.description}
+                                name="description"
                                 onChange={(e) =>
                                     handlePriceChange(index, "description", e.target.value)
                                 }
                             />
-                            <input
+                            <Input
                                 type="number"
-                                className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                                
                                 placeholder="Precio"
+                                name="price"
+                    
                                 value={price.price}
                                 onChange={(e) =>
                                     handlePriceChange(index, "price", e.target.value)
@@ -167,20 +178,19 @@ const PropertyForm = ({ isEditing }) => {
             </div> */}
 
             <div className="mt-8 flex justify-end gap-x-2">
-                <button
+                <Button
                     type="button"
-                    className="py-2 px-4 rounded-md border border-gray-300 text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
+                    className="border-gray-300 text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
                     onClick={() => navigate("/admin/propiedades")}
                 >
                     Cancelar
-                </button>
-                <button
+                </Button>
+                <Button
                     type="submit"
-                    onClick={handleSubmit}
-                    className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                    className="bg-blue-500 text-white hover:bg-blue-600"
                 >
                     {isEditing ? "Actualizar" : "Crear"}
-                </button>
+                </Button>
             </div>
             
           {/* <MultipleImageUpload onUpload={handleImageUpload} /> */}
