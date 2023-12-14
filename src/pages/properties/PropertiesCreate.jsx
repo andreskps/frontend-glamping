@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import MultipleImageUpload from "../../components/MultipleImageUpload";
 
 import { createProperty } from "../../services/propertyService";
-import PropertyForm from "./propertyForm";
+import PropertyForm from "../../components/properties/propertyForm";
 
 const PropertiesCreate = () => {
   const [property, setProperty] = useState({
