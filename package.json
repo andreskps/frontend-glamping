@@ -14,6 +14,7 @@
     "@preline/overlay": "^2.0.1",
     "@tanstack/react-query": "^5.13.4",
     "@tanstack/react-query-devtools": "^5.13.5",
+    "@tanstack/react-table": "^8.10.7",
     "axios": "^1.6.2",
     "preline": "^2.0.2",
     "react": "^18.2.0",
