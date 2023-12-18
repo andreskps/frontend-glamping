@@ -5,12 +5,9 @@ import SimpleTable from "../../components/Table/SimpleTable";
 const ProductsPage = () => {
   return (
     <>
-    <div className="flex flex-col">
-      
-
-    <SimpleTable />
-    </div>
-       
+      <div className="flex flex-col">
+        <ProductsTable />
+      </div>
     </>
   );
 };

@@ -1,25 +1,42 @@
-import React from 'react'
-import Table from '../Table/Table'
+import React from "react";
+import { Link } from "react-router-dom";
+import data from "../../../data/products.json";
+import SimpleTable from "../Table/SimpleTable";
 
 const ProductsTable = () => {
-    const productsData = [
-        { id: 1, name: 'Producto 1', price: 20, stock: 50 ,status:'Activo'},
-        { id: 2, name: 'Producto 2', price: 30, stock: 30 ,status:'Inactivo'},
-        // ... más datos ...
-      ];
-      
-      const productColumns = [
-        { label: 'ID', key: 'id' },
-        { label: 'Nombre', key: 'name' },
-        { label: 'Precio', key: 'price' },
-        { label: 'Stock', key: 'stock' },
-        { label: 'Estado', key: 'status' },
-      ];
-      
+  const columns = [
+    {
+      header: "ID",
+      accessorKey: "id",
+      footer: "Product ID",
+    },
+    {
+      header: "Name",
+      accessorKey: "name",
+      footer: "Product Name",
+    },
+    {
+      header: "Price",
+      accessorKey: "price",
+      footer: "Product Price",
+    },
+    {
+      header: "Description",
+      accessorKey: "description",
+      footer: "Product Description",
+    },
+    {
+      header: "Estado",
+      accessorKey: "status",
+      footer: "Product Status",
+    },
+  ];
 
   return (
-     <Table data={productsData} colums={productColumns} />
-  )
-}
+   
+          <SimpleTable columns={columns} data={data} />
+ 
+  );
+};
 
-export default ProductsTable
+export default ProductsTable;
