@@ -4,7 +4,6 @@ import clienteAxios from "../../config/Axios";
 
 export const getProperties = async ()=>{
 
-    console.log("getProperties");
     try {
 
        const response = await clienteAxios.get("/properties");

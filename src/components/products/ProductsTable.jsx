@@ -1,9 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import data from "../../../data/products.json";
+import {useQuery} from "@tanstack/react-query";
 import SimpleTable from "../Table/SimpleTable";
+import { getProducts } from "../../services/productsService";
 
 const ProductsTable = () => {
+
+  const { isLoading, error, data } = useQuery({
+    queryKey:["products"],
+    queryFn: getProducts
+  })
   const columns = [
     {
       header: "ID",
@@ -26,12 +32,17 @@ const ProductsTable = () => {
       footer: "Product Description",
     },
     {
-      header: "Estado",
-      accessorKey: "status",
-      footer: "Product Status",
+      header: "Stock",
+      accessorKey: "stock",
     },
+
   ];
 
+  if (isLoading) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
+
+  console.log(data);
   return (
    
           <SimpleTable columns={columns} data={data} />
