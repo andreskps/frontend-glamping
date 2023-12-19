@@ -12,7 +12,7 @@ import { IoIosAdd } from "react-icons/io";
 import { VscEllipsis } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 
-const SimpleTable = ({ columns, data }) => {
+const SimpleTable = ({ columns, data, handleEdit, handleDelete }) => {
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -160,26 +160,26 @@ const SimpleTable = ({ columns, data }) => {
                       </label>
                       <div class="dropdown-menu">
                         <div class="dropdown-content">
-                          <a
-                            href="#"
+                          <button
+                            
                             class="dropdown-item"
                             tabindex="0"
                             onClick={() => {
-                              console.log(row.original.id);
+                              handleEdit(row.original.id);
                             }}
                           >
                             Editar
-                          </a>
-                          <a
-                            href="#"
+                          </button>
+                          <button
                             class="dropdown-item"
+                            htmlFor="modal-2"
                             tabindex="0"
                             onClick={() => {
-                              console.log(row.original.id);
+                              handleDelete(row.original.id);
                             }}
                           >
                             Eliminar
-                          </a>
+                          </button>
           
                         </div>
                       </div>

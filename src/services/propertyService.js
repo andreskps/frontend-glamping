@@ -61,3 +61,12 @@ export const createProperty = async (property) => {
         throw error;
     }
 }
+
+export const deleteProperty = async (id) => {
+    try {
+        const response = await clienteAxios.delete(`/properties/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
