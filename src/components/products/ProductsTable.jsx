@@ -1,10 +1,13 @@
 import React from "react";
 import data from "../../../data/products.json";
+import { useNavigate } from "react-router-dom";
 import {useQuery} from "@tanstack/react-query";
 import SimpleTable from "../Table/SimpleTable";
 import { getProducts } from "../../services/productsService";
 
 const ProductsTable = () => {
+
+  const navigate = useNavigate();
 
   const { isLoading, error, data } = useQuery({
     queryKey:["products"],
@@ -42,10 +45,13 @@ const ProductsTable = () => {
 
   if (error) return "An error has occurred: " + error.message;
 
-  console.log(data);
+  const handleEdit = (id) => {
+    navigate(`/admin/productos/editar/${id}`);
+  };
+
   return (
    
-          <SimpleTable columns={columns} data={data} />
+          <SimpleTable columns={columns} data={data} handleEdit={handleEdit}/>
  
   );
 };

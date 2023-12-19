@@ -1,26 +1,85 @@
-import React from "react";
+import { useState,useEffect } from "react";
 import Input from "../ui/forms/Input";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
-
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  getProduct,
+  updateProduct,
+  createProduct,
+} from "../../services/productsService";
 const ProductsForm = ({ isEditing }) => {
+  const { id } = useParams();
+
+  const queryClient = useQueryClient();
+
   const navigate = useNavigate();
+
+  const [formState, setFormState] = useState({
+    name: "",
+    description: "",
+    price: 0,
+    stock: 0,
+  });
+
+  const {
+    isLoading,
+    error,
+    data: product,
+  } = useQuery({
+    queryKey: ["product", id],
+    queryFn: () => (isEditing ? getProduct(id) : null),
+    enabled: isEditing,
+  });
+
+
+  useEffect(()=>{
+    if(isEditing && product) {
+      setFormState(product)
+    }    
+  },[isEditing,product])
+
+
+  const handleInputChange = (key, value) => {
+    setFormState({ ...formState, [key]: value });
+  };
+
+
+  const mutation = useMutation({
+    mutationFn: isEditing ? updateProduct : createProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries("products");
+      toast.success(
+        `Producto ${isEditing ? "actualizado" : "creado"} correctamente`
+      );
+      navigate("/admin/productos");
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+// ;
+//     const requiredFields = ["name", "description", "price"];
 
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
+//     const hasEmptyFields = requiredFields.some((field) => !data[field]);
 
-    const requiredFields = ["name", "description", "price"];
+//     if (hasEmptyFields) {
+//       return toast.error("Por favor, rellena todos los campos");
+//     }
 
-    const hasEmptyFields = requiredFields.some((field) => !data[field]);
-
-    if (hasEmptyFields) {
-      return toast.error("Por favor, rellena todos los campos");
-    }
-    console.log(data);
+    mutation.mutate({
+      ...formState,
+      propertyId:'13fe6997-8437-42c6-8ded-b77285d7cdd2'
+    });
   };
+
+  if (isLoading) return "Cargando...";
+
+  if (error) return `Error: ${error.message}`;
+
   return (
     <div className="max-w-2xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
       <div className="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
@@ -31,15 +90,41 @@ const ProductsForm = ({ isEditing }) => {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mt-2 space-y-3">
-            <Input type="text" placeholder="Nombre" name="name" id="name" />
+            <Input
+              type="text"
+              value={formState.name}
+              onChange={(e) => handleInputChange("name", e.target.value)}
+              placeholder="Nombre"
+              name="name"
+              id="name"
+            />
             <Input
               type="text"
               placeholder="Descripción"
               name="description"
               id="description"
+              value={formState.description}
+              onChange={(e) => handleInputChange("description", e.target.value)}
             />
-            <Input type="text" placeholder="Precio" name="price" id="price" />
-            <Input type="number" placeholder="Stock" name="stock" />
+            <Input
+            
+              type="text"
+              placeholder="Precio"
+              value={formState.price}
+              onChange={(e) => handleInputChange("price", e.target.value)}
+
+              name="price"
+              id="price"
+            />
+            <Input
+              type="number"
+              value={formState.stock}
+              onChange={(e) => handleInputChange("stock", e.target.value)}
+              
+
+              placeholder="Stock"
+              name="stock"
+            />
           </div>
 
           <div className="mt-5 flex justify-end gap-x-2">

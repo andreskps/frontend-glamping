@@ -8,3 +8,35 @@ export const getProducts = async () => {
     throw error;
   }
 };
+
+export const getProduct = async (id) => {
+  try {
+    const response = await clienteAxios.get(`/products/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const createProduct = async (product) => {
+  try {
+    const response = await clienteAxios.post("/products", product);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const updateProduct = async (product) => {
+  
+  console.log(product.stock)
+  try {
+    const response = await clienteAxios.put(`/products/${product.id}`,{
+        stock: product.stock
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error)
+    throw error;
+  }
+}

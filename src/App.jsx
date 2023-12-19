@@ -12,6 +12,7 @@ import ProtectedRoutes from "./layouts/AdminLayout";
 import {Toaster} from "react-hot-toast";
 import PropertyEdit from "./pages/properties/PropertyEdit";
 import ProductsCreate from "./pages/products/ProductsCreate";
+import ProductsEdit from "./pages/products/ProductsEdit";
 
 function App() {
   if (localStorage.getItem("theme") === "dark") {
@@ -46,6 +47,7 @@ function App() {
           <Route path="propiedades/editar/:id" element={<PropertyEdit/>} />
           <Route path="productos" element={<ProductsPage />} />
           <Route path="productos/crear" element={<ProductsCreate />} />
+          <Route path="productos/editar/:id" element={<ProductsEdit />} />
         </Route>
       </Routes>
     </BrowserRouter>
