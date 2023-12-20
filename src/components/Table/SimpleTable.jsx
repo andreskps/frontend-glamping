@@ -17,7 +17,7 @@ const SimpleTable = ({ columns, data, handleEdit, handleDelete }) => {
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [id, setId] = useState("");
 
   const table = useReactTable({

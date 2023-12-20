@@ -40,3 +40,13 @@ export const updateProduct = async (product) => {
     throw error;
   }
 }
+
+
+export const deleteProduct = async (id) => {
+  try {
+    const response = await clienteAxios.delete(`/products/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

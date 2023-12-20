@@ -1,13 +1,24 @@
 import React from "react";
 import data from "../../../data/products.json";
 import { useNavigate } from "react-router-dom";
-import {useQuery} from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import SimpleTable from "../Table/SimpleTable";
-import { getProducts } from "../../services/productsService";
+import { getProducts ,deleteProduct} from "../../services/productsService";
 
 const ProductsTable = () => {
 
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: deleteProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries("products");
+      toast.success("Producto eliminado correctamente");
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+  });
 
   const { isLoading, error, data } = useQuery({
     queryKey:["products"],
@@ -49,9 +60,14 @@ const ProductsTable = () => {
     navigate(`/admin/productos/editar/${id}`);
   };
 
+  const handleDelete = (id) => {
+    console.log(id);
+    mutation.mutate(id);
+  };
+
   return (
    
-          <SimpleTable columns={columns} data={data} handleEdit={handleEdit}/>
+          <SimpleTable columns={columns} data={data} handleEdit={handleEdit} handleDelete={handleDelete}/>
  
   );
 };
