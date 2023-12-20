@@ -35,7 +35,6 @@ export const updateProperty = async (property) => {
         });
         return response.data;
     } catch (error) {
-        console.log(error);
         throw error;
     }
 }
