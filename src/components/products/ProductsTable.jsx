@@ -3,7 +3,7 @@ import data from "../../../data/products.json";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import SimpleTable from "../Table/SimpleTable";
-import { getProducts ,deleteProduct} from "../../services/productsService";
+import { getProducts ,deleteProduct,getProductsByProperty} from "../../services/productsService";
 
 const ProductsTable = () => {
 
@@ -22,7 +22,7 @@ const ProductsTable = () => {
 
   const { isLoading, error, data } = useQuery({
     queryKey:["products"],
-    queryFn: getProducts
+    queryFn: getProductsByProperty
   })
   const columns = [
     {

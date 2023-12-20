@@ -1,6 +1,10 @@
 import clienteAxios from "../../config/Axios";
+import { usePropertiesStore } from "../store/propertiesStore";
+
+const propertyId = usePropertiesStore.getState().property;
 
 export const getProducts = async () => {
+  
   try {
     const response = await clienteAxios.get("/products");
     return response.data;
@@ -8,6 +12,16 @@ export const getProducts = async () => {
     throw error;
   }
 };
+
+export const getProductsByProperty = async () => {
+  try {
+    const response = await clienteAxios.get(`/products/property/${propertyId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+
+}
 
 export const getProduct = async (id) => {
   try {
@@ -20,7 +34,7 @@ export const getProduct = async (id) => {
 
 export const createProduct = async (product) => {
   try {
-    console.log(product)
+    
     const response = await clienteAxios.post("/products", product);
     return response.data;
   } catch (error) {

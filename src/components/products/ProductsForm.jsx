@@ -8,8 +8,11 @@ import {
   updateProduct,
   createProduct,
 } from "../../services/productsService";
+import { usePropertiesStore } from "../../store/propertiesStore";
 const ProductsForm = ({ isEditing }) => {
   const { id } = useParams();
+
+  const getProperty = usePropertiesStore((state) => state.property);
 
   const queryClient = useQueryClient();
 
@@ -69,12 +72,10 @@ const ProductsForm = ({ isEditing }) => {
 //     if (hasEmptyFields) {
 //       return toast.error("Por favor, rellena todos los campos");
 //     }
-
-console.log(formState)
     mutation.mutate({
     
       ...formState,
-      propertyId:'78cda526-a407-4416-91c9-9d45fc4a67d0'
+      propertyId: getProperty,
     });
   };
 
