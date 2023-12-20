@@ -70,9 +70,11 @@ const ProductsForm = ({ isEditing }) => {
 //       return toast.error("Por favor, rellena todos los campos");
 //     }
 
+console.log(formState)
     mutation.mutate({
+    
       ...formState,
-      propertyId:'13fe6997-8437-42c6-8ded-b77285d7cdd2'
+      propertyId:'78cda526-a407-4416-91c9-9d45fc4a67d0'
     });
   };
 

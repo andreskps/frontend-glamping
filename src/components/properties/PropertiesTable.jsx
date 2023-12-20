@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { usePropertiesStore } from "../../store/propertiesStore";
 import {
   getPropertiesByOwner,
   deleteProperty,
@@ -10,6 +11,7 @@ import SimpleTable from "../Table/SimpleTable";
 
 const PropertiesTable = () => {
   const navigate = useNavigate();
+  const setProperties = usePropertiesStore((state) => state.setProperties);
 
   const queryClient = useQueryClient();
   const mutuation = useMutation({
@@ -23,7 +25,7 @@ const PropertiesTable = () => {
     },
   });
 
-  const { isLoading, error, data } = useQuery({
+  const { isLoading, error, data,isSuccess } = useQuery({
     queryKey: ["properties"],
     queryFn: getPropertiesByOwner,
   });
@@ -58,6 +60,10 @@ const PropertiesTable = () => {
   if (isLoading) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
+
+  if (isSuccess) {
+    setProperties(data);
+  }
 
   return (
     <SimpleTable

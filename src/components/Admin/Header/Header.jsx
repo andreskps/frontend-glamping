@@ -2,28 +2,12 @@ import { useState, useEffect } from "react";
 import { getPropertiesByOwner } from "../../../services/propertyService";
 import { CiSettings, CiLogout } from "react-icons/ci";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { usePropertiesStore } from "../../../store/propertiesStore";
 const Header = () => {
-  const queryClient = useQueryClient();
 
-  const [properties, setProperties] = useState([]);
-
-  const { isLoading, error, data } = useQuery({
-    queryKey: ["properties"],
-    queryFn: getPropertiesByOwner,
-    onSuccess: (data) => {
-      setProperties(data);
-    },
-  });
-
-  useEffect(() => {
-    if (data) {
-      setProperties(data);
-    }
-  }, [data]);
-
-  if (isLoading) return "Loading...";
-
-  if (error) return "An error has occurred: " + error.message;
+  const propertiesStore = usePropertiesStore((state) => state.properties);
+  const setProperty = usePropertiesStore((state) => state.setProperty);
+  const getProperty = usePropertiesStore((state) => state.property);
 
   return (
     <>
@@ -64,10 +48,13 @@ const Header = () => {
           "minimumResultsForSearch": "Infinity",
           "dropdownAutoWidth": true
         }'
+        onChange={(e) => setProperty(e.target.value)}
               >
-                {properties.map((property) => (
-                  <option key={property.id} value={property.id}>
-                    {property.name}
+                {propertiesStore.map((property) => (
+                  <option key={property.id} value={property.id}
+                  selected={property.id === getProperty ? true : false}
+                  >
+                    {property?.name}
                   </option>
                 ))}
               </select>

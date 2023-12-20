@@ -20,9 +20,11 @@ export const getProduct = async (id) => {
 
 export const createProduct = async (product) => {
   try {
+    console.log(product)
     const response = await clienteAxios.post("/products", product);
     return response.data;
   } catch (error) {
+    console.log(error)
     throw error;
   }
 }
