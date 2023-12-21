@@ -13,6 +13,7 @@ import {Toaster} from "react-hot-toast";
 import PropertyEdit from "./pages/properties/PropertyEdit";
 import ProductsCreate from "./pages/products/ProductsCreate";
 import ProductsEdit from "./pages/products/ProductsEdit";
+import ServicesPage from "./pages/services-property/ServicesPage";
 
 function App() {
   if (localStorage.getItem("theme") === "dark") {
@@ -48,6 +49,8 @@ function App() {
           <Route path="productos" element={<ProductsPage />} />
           <Route path="productos/crear" element={<ProductsCreate />} />
           <Route path="productos/editar/:id" element={<ProductsEdit />} />
+          <Route path="servicios" element={<ServicesPage/>} />
+          
         </Route>
       </Routes>
     </BrowserRouter>

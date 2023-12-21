@@ -1,7 +1,5 @@
 import clienteAxios from "../../config/Axios";
-import { usePropertiesStore } from "../store/propertiesStore";
 
-// const propertyId = usePropertiesStore.getState().property;
 
 export const getProducts = async () => {
   
@@ -14,8 +12,6 @@ export const getProducts = async () => {
 };
 
 export const getProductsByProperty = async (propertyId) => {
-
-  console.log(propertyId)
   try {
     const response = await clienteAxios.get(`/products/property/${propertyId}`);
     return response.data;

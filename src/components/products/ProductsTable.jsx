@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import data from "../../../data/products.json";
+
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import SimpleTable from "../Table/SimpleTable";
 import {
-  getProducts,
   deleteProduct,
   getProductsByProperty,
 } from "../../services/productsService";
@@ -67,7 +65,6 @@ const ProductsTable = () => {
   };
 
   const handleDelete = (id) => {
-    console.log(id);
     mutation.mutate(id);
   };
 
