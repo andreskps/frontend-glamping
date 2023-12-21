@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import data from "../../../data/products.json";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import SimpleTable from "../Table/SimpleTable";
-import { getProducts ,deleteProduct,getProductsByProperty} from "../../services/productsService";
-
+import {
+  getProducts,
+  deleteProduct,
+  getProductsByProperty,
+} from "../../services/productsService";
+import { usePropertiesStore } from "../../store/propertiesStore";
 const ProductsTable = () => {
-
+  const property = usePropertiesStore((state) => state.property);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
@@ -21,9 +26,11 @@ const ProductsTable = () => {
   });
 
   const { isLoading, error, data } = useQuery({
-    queryKey:["products"],
-    queryFn: getProductsByProperty
-  })
+    queryKey: ["products", property], // Usamos la propiedad como parte de la clave de la consulta
+    queryFn: () => getProductsByProperty(property),
+  });
+
+
   const columns = [
     {
       header: "ID",
@@ -49,7 +56,6 @@ const ProductsTable = () => {
       header: "Stock",
       accessorKey: "stock",
     },
-
   ];
 
   if (isLoading) return "Loading...";
@@ -66,9 +72,12 @@ const ProductsTable = () => {
   };
 
   return (
-   
-          <SimpleTable columns={columns} data={data} handleEdit={handleEdit} handleDelete={handleDelete}/>
- 
+    <SimpleTable
+      columns={columns}
+      data={data}
+      handleEdit={handleEdit}
+      handleDelete={handleDelete}
+    />
   );
 };
 

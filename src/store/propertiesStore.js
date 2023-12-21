@@ -7,6 +7,7 @@ export const usePropertiesStore = create( persist((set, get) => ({
         setProperties: (properties) => set({ properties }),
         setProperty: (property) => set({ property }),
         removeProperty: () => set({ property: null}),
+        getProperty: () => get().property,
         }),
         {
         name: "properties",

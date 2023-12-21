@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { getPropertiesByOwner } from "../../../services/propertyService";
 import { CiSettings, CiLogout } from "react-icons/ci";
-import { useQueryClient, useQuery } from "@tanstack/react-query";
+import { useQueryClient, useQuery} from "@tanstack/react-query";
 import { usePropertiesStore } from "../../../store/propertiesStore";
 const Header = () => {
+
+  const queryClient = useQueryClient();
 
   const propertiesStore = usePropertiesStore((state) => state.properties);
   const setProperty = usePropertiesStore((state) => state.setProperty);
@@ -48,7 +50,10 @@ const Header = () => {
           "minimumResultsForSearch": "Infinity",
           "dropdownAutoWidth": true
         }'
-        onChange={(e) => setProperty(e.target.value)}
+        onChange={(e) => {
+          setProperty(e.target.value);
+          queryClient.invalidateQueries(["products",e.target.value])
+        }}
               >
                 {propertiesStore.map((property) => (
                   <option key={property.id} value={property.id}
