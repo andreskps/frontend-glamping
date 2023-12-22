@@ -44,3 +44,12 @@ export const updateService = async (service) => {
         throw error;
     }
 }
+
+export const deleteService = async (id) => {
+    try {
+        const response = await clienteAxios.delete(`/services/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
