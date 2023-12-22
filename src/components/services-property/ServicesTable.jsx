@@ -44,7 +44,15 @@ const ServicesTable = () => {
     },
   ];
 
-  return <SimpleTable columns={columns} data={data} />;
+  const handleEdit = (id) => {
+    navigate(`/admin/servicios/editar/${id}`);
+  };
+
+  // const handleDelete = (id) => {
+  //   mutation.mutate(id);
+  // }
+
+  return <SimpleTable columns={columns} data={data}  handleEdit={handleEdit}/>;
 };
 
 export default ServicesTable;

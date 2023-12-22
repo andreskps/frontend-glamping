@@ -14,6 +14,8 @@ import PropertyEdit from "./pages/properties/PropertyEdit";
 import ProductsCreate from "./pages/products/ProductsCreate";
 import ProductsEdit from "./pages/products/ProductsEdit";
 import ServicesPage from "./pages/services-property/ServicesPage";
+import ServicesCreate from "./pages/services-property/ServicesCreate";
+import ServiceEdit from "./pages/services-property/ServiceEdit";
 
 function App() {
   if (localStorage.getItem("theme") === "dark") {
@@ -50,6 +52,8 @@ function App() {
           <Route path="productos/crear" element={<ProductsCreate />} />
           <Route path="productos/editar/:id" element={<ProductsEdit />} />
           <Route path="servicios" element={<ServicesPage/>} />
+          <Route path="servicios/crear" element={<ServicesCreate/>} />
+          <Route path="servicios/editar/:id" element={<ServiceEdit/>} />
           
         </Route>
       </Routes>
