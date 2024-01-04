@@ -1,10 +1,11 @@
 
 
 import React from 'react'
+import PoliticsForm from '../../components/politics/PoliticsForm'
 
 const PoliticCreate = () => {
   return (
-    <div>PoliticCreate</div>
+    <PoliticsForm isEditing={false} />
   )
 }
 
