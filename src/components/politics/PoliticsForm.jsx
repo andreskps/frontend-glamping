@@ -3,6 +3,7 @@ import Input from "../ui/forms/Input";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { createPolitic, updatePolitic } from "../../services/politicsService";
 
 const PoliticsForm = ({ isEditing }) => {
   const { id } = useParams();
@@ -31,36 +32,46 @@ const PoliticsForm = ({ isEditing }) => {
     ],
   });
 
-  const handleInputChange = (key, value) => {
-    setFormState({ ...formState, [key]: value });
-  };
+  const mutation = useMutation({
+    mutationFn: isEditing ? updatePolitic : createPolitic,
+    onSuccess: () => {
+      queryClient.invalidateQueries("politics");
+      toast.success(
+        `Politica ${isEditing ? "actualizada" : "creada"} correctamente`
+      );
+      navigate("/admin/politicas");
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const formData = new FormData(e.target);
 
     const data = Object.fromEntries(formData);
 
     const newPolitic = {
-        name: data.name,
-        description: data.description,
-        details: [
-            {
-            cancellation: {
-                status: data.cancellation ? true : false,
-                days_prevent: data.days_prevent,
-                penalty: data.penalty,
-            },
-            check_in: {
-                hour: data.check_in,
-            },
-            check_out: {
-                hour: data.check_out,
-            },
-            },
-        ],
-    }    
+      name: data.name,
+      description: data.description,
+      details: {
+        cancellation: {
+          status: data.cancellation ? true : false,
+          days_prevents: data.days_prevents,
+          penalty: data.penalty,
+        },
+        check_in: {
+          hour: data.check_in,
+        },
+        check_out: {
+          hour: data.check_out,
+        },
+      },
+    };
+
+    mutation.mutate(newPolitic);
   };
 
   return (
@@ -73,12 +84,7 @@ const PoliticsForm = ({ isEditing }) => {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mt-2 space-y-3">
-            <Input
-              type="text"
-              placeholder="Nombre"
-              name="name"
-              id="name"
-            />
+            <Input type="text" placeholder="Nombre" name="name" id="name" />
             <Input
               placeholder="Descripción"
               name="description"
@@ -87,55 +93,41 @@ const PoliticsForm = ({ isEditing }) => {
             />
           </div>
           <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
-
             <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
-                Detalles
+              Detalles
             </h3>
 
             <div className="mt-2 space-y-3">
+              <Input type="checkbox" name="cancellation" id="cancellation" />
+              <Input
+                type="number"
+                placeholder="Días de anticipación"
+                name="days_prevents"
+                id="days_prevents"
+              />
 
-                <Input
-                    type="checkbox"
-                    name="cancellation"
-                    id="cancellation"
-                />
-                <Input
-                    type="number"
-                    placeholder="Días de anticipación"
-                    name="days_prevent"
-                    id="days_prevent"
-                />
+              <Input
+                type="number"
+                placeholder="Penalidad"
+                name="penalty"
+                id="penalty"
+              />
 
-                <Input
-                    type="number"
-                    placeholder="Penalidad"
-                    name="penalty"
-                    id="penalty"
-                />
+              <Input
+                type="time"
+                placeholder="Hora de entrada"
+                name="check_in"
+                id="check_in"
+              />
 
-                <Input
-                    type="time"
-                    placeholder="Hora de entrada"
-                    name="check_in"
-                    id="check_in"
-
-                />
-
-                <Input
-                    type="time"
-                    placeholder="Hora de salida"
-                    name="check_out"
-                    id="check_out"
-                />
-
-            
-            
+              <Input
+                type="time"
+                placeholder="Hora de salida"
+                name="check_out"
+                id="check_out"
+              />
             </div>
-                
-
           </div>
-
-
 
           <div className="mt-5 flex justify-end gap-x-2">
             <button
