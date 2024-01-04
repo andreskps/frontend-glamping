@@ -16,6 +16,8 @@ import ProductsEdit from "./pages/products/ProductsEdit";
 import ServicesPage from "./pages/services-property/ServicesPage";
 import ServicesCreate from "./pages/services-property/ServicesCreate";
 import ServiceEdit from "./pages/services-property/ServiceEdit";
+import PoliticsPage from "./pages/politics/PoliticsPage";
+import PoliticCreate from "./pages/politics/PoliticCreate";
 
 function App() {
   if (localStorage.getItem("theme") === "dark") {
@@ -44,13 +46,23 @@ function App() {
 
         <Route path="admin" element={<ProtectedRoutes requiredRoles={["owner"]} />}>
        
+          {/* Rutas propiedades*/}
           <Route index element={<DashboardPage />} />
           <Route path="propiedades" element={<PropertiesPage />} />
           <Route path="propiedades/crear" element={<PropertiesCreate />} />
           <Route path="propiedades/editar/:id" element={<PropertyEdit/>} />
+
+          {/*Rutas politicas*/}
+          <Route path="politicas" element={<PoliticsPage />} />
+          <Route path="politicas/crear" element={<PoliticCreate />} />
+
+
+          {/* Rutas productos*/ }
           <Route path="productos" element={<ProductsPage />} />
           <Route path="productos/crear" element={<ProductsCreate />} />
           <Route path="productos/editar/:id" element={<ProductsEdit />} />
+
+          {/* Rutas servicios*/ }
           <Route path="servicios" element={<ServicesPage/>} />
           <Route path="servicios/crear" element={<ServicesCreate/>} />
           <Route path="servicios/editar/:id" element={<ServiceEdit/>} />
