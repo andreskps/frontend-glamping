@@ -12,6 +12,16 @@ export const getPolitics = async () => {
 
 }
 
+export const getPolitic = async (id) => {
+    try {
+        const response = await clienteAxios.get(`/politics/${id}`);
+        return response.data;
+    } catch (error) {
+
+        throw error;
+    }
+}
+
 export const createPolitic = async (politic) => {
     try {
         const response = await clienteAxios.post("/politics", politic);

@@ -5,24 +5,8 @@ import { getPolitics } from "../../services/politicsService";
 
 const PoliticsTable = () => {
 
+  const navigate = useNavigate();
 
-//   const data = [
-//     {
-//       id: 1,
-//       name: "Politica 1",
-//       description: "Descripcion 1",
-//     },
-//     {
-//       id: 2,
-//       name: "Politica 2",
-//       description: "Descripcion 2",
-//     },
-//     {
-//       id: 3,
-//       name: "Politica 3",
-//       description: "Descripcion 3",
-//     },
-//   ];
 
 const {isLoading, error, data:politics} = useQuery({
     queryKey: ["politics"],
@@ -49,7 +33,11 @@ const {isLoading, error, data:politics} = useQuery({
       accessorKey: "description",
     },
   ];
-  return <SimpleTable columns={columns} data={politics} />;
+
+  const handleEdit = (id) => {
+    navigate(`/admin/politicas/editar/${id}`);
+  };
+  return <SimpleTable columns={columns} data={politics} handleEdit={handleEdit} />;
 };
 
 export default PoliticsTable;

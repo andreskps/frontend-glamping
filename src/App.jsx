@@ -18,6 +18,7 @@ import ServicesCreate from "./pages/services-property/ServicesCreate";
 import ServiceEdit from "./pages/services-property/ServiceEdit";
 import PoliticsPage from "./pages/politics/PoliticsPage";
 import PoliticCreate from "./pages/politics/PoliticCreate";
+import PoliticEdit from "./pages/politics/PoliticEdit";
 
 function App() {
   if (localStorage.getItem("theme") === "dark") {
@@ -55,6 +56,7 @@ function App() {
           {/*Rutas politicas*/}
           <Route path="politicas" element={<PoliticsPage />} />
           <Route path="politicas/crear" element={<PoliticCreate />} />
+          <Route path="politicas/editar/:id" element={<PoliticEdit/>} />
 
 
           {/* Rutas productos*/ }

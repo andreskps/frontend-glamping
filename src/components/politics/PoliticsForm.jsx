@@ -3,7 +3,11 @@ import Input from "../ui/forms/Input";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { createPolitic, updatePolitic } from "../../services/politicsService";
+import {
+  createPolitic,
+  updatePolitic,
+  getPolitic,
+} from "../../services/politicsService";
 
 const PoliticsForm = ({ isEditing }) => {
   const { id } = useParams();
@@ -15,22 +19,54 @@ const PoliticsForm = ({ isEditing }) => {
   const [formState, setFormState] = useState({
     name: "",
     description: "",
-    details: [
-      {
-        cancellation: {
-          status: false,
-          days_prevent: 0,
-          penalty: 0,
-        },
-        check_in: {
-          hour: "",
-        },
-        check_out: {
-          hour: "",
-        },
+    details: {
+      cancellation: {
+        status: false,
+        days_prevents: "",
+        penalty: "",
       },
-    ],
+      check_in: {
+        hour: "",
+      },
+      check_out: {
+        hour: "",
+      },
+    },
   });
+
+  const [inputs, setInputs] = useState({
+    name: "",
+    description: "",
+    cancellation: false,
+    check_in: "",
+    check_out: "",
+    days_prevents: "",
+    penalty: "",
+  });
+
+  const {
+    isLoading,
+    error,
+    data: politic,
+  } = useQuery({
+    queryKey: ["politic", id],
+    queryFn: () => (isEditing ? getPolitic(id) : null),
+    enabled: isEditing,
+  });
+
+  useEffect(() => {
+    if (isEditing && politic) {
+      setInputs({
+        name: politic.name,
+        description: politic.description,
+        cancellation: politic.details.cancellation?.status,
+        check_in: politic.details.check_in?.hour,
+        check_out: politic.details.check_out?.hour,
+        days_prevents: politic.details.cancellation?.days_prevents,
+        penalty: politic.details.cancellation?.penalty,
+      });
+    }
+  }, [isEditing, politic]);
 
   const mutation = useMutation({
     mutationFn: isEditing ? updatePolitic : createPolitic,
@@ -46,34 +82,38 @@ const PoliticsForm = ({ isEditing }) => {
     },
   });
 
+  const handleInputChange = (name, value) => {
+    setInputs({ ...inputs, [name]: value });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.target);
-
-    const data = Object.fromEntries(formData);
-
-    const newPolitic = {
-      name: data.name,
-      description: data.description,
+    const politic = {
+      name: inputs.name,
+      description: inputs.description,
       details: {
         cancellation: {
-          status: data.cancellation ? true : false,
-          days_prevents: data.days_prevents,
-          penalty: data.penalty,
+          status: inputs.cancellation ? true : false,
+          days_prevents: inputs.days_prevents,
+          penalty: inputs.penalty,
         },
         check_in: {
-          hour: data.check_in,
+          hour: inputs.check_in,
         },
         check_out: {
-          hour: data.check_out,
+          hour: inputs.check_out,
         },
       },
     };
 
-    mutation.mutate(newPolitic);
+    mutation.mutate(politic);
   };
 
+  if (isLoading) return "Loading...";
+  if (error) return "An error has occurred: " + error.message;
+
+ 
   return (
     <div className="max-w-2xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
       <div className="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
@@ -84,12 +124,21 @@ const PoliticsForm = ({ isEditing }) => {
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mt-2 space-y-3">
-            <Input type="text" placeholder="Nombre" name="name" id="name" />
+            <Input
+              type="text"
+              placeholder="Nombre"
+              name="name"
+              id="name"
+              value={inputs.name}
+              onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+            />
             <Input
               placeholder="Descripción"
               name="description"
               id="description"
               type="text"
+              value={inputs.description}
+              onChange={(e) => handleInputChange(e.target.name, e.target.value)}
             />
           </div>
           <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
@@ -98,33 +147,57 @@ const PoliticsForm = ({ isEditing }) => {
             </h3>
 
             <div className="mt-2 space-y-3">
-              <Input type="checkbox" name="cancellation" id="cancellation" />
+              <Input
+                type="checkbox"
+                name="cancellation"
+                id="cancellation"
+                checked={inputs.cancellation}
+                onChange={(e) =>
+                  handleInputChange(e.target.name, e.target.checked)
+                }
+              />
               <Input
                 type="number"
                 placeholder="Días de anticipación"
                 name="days_prevents"
+                value={inputs.days_prevents}
                 id="days_prevents"
+                onChange={(e) =>
+                  handleInputChange(e.target.name, e.target.value)
+                }
               />
 
               <Input
                 type="number"
                 placeholder="Penalidad"
+                value={inputs.penalty}
                 name="penalty"
                 id="penalty"
+                onChange={(e) =>
+                  handleInputChange(e.target.name, e.target.value)
+                }
               />
 
               <Input
                 type="time"
                 placeholder="Hora de entrada"
+                value={inputs.check_in}
                 name="check_in"
                 id="check_in"
+                onChange={(e) =>
+                  handleInputChange(e.target.name, e.target.value)
+                }
               />
 
               <Input
                 type="time"
                 placeholder="Hora de salida"
                 name="check_out"
+                value={inputs.check_out}
                 id="check_out"
+                onChange={(e) =>
+                  handleInputChange(e.target.name, e.target.value)
+                }
               />
             </div>
           </div>
