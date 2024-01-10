@@ -1,23 +1,38 @@
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import SimpleTable from "../Table/SimpleTable";
-import { getPolitics } from "../../services/politicsService";
+import { getPolitics,deletePolitic } from "../../services/politicsService";
 
 const PoliticsTable = () => {
-
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-
-const {isLoading, error, data:politics} = useQuery({
+  const {
+    isLoading,
+    error,
+    data: politics,
+  } = useQuery({
     queryKey: ["politics"],
     queryFn: () => getPolitics(),
-    });
+  });
 
-    if (isLoading) return "Loading...";
+  const mutation = useMutation({
+    mutationFn: deletePolitic,
+    onSuccess: () => {
+      queryClient.invalidateQueries("politics");
+      toast.success("Politica eliminada correctamente");
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+  });
 
-    if (error) return "An error has occurred: " + error.message;
 
 
+
+  if (isLoading) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
 
   const columns = [
     {
@@ -34,10 +49,17 @@ const {isLoading, error, data:politics} = useQuery({
     },
   ];
 
+
+  const handleDelete = (id) => {
+    mutation.mutate(id);
+  };
+
   const handleEdit = (id) => {
     navigate(`/admin/politicas/editar/${id}`);
   };
-  return <SimpleTable columns={columns} data={politics} handleEdit={handleEdit} />;
+  return (
+    <SimpleTable columns={columns} data={politics} handleEdit={handleEdit} handleDelete={handleDelete}/>
+  );
 };
 
 export default PoliticsTable;

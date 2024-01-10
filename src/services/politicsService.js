@@ -38,3 +38,12 @@ export const updatePolitic = async (politic) => {
     throw error;
   }
 };
+
+export const deletePolitic = async (id) => {
+  try {
+    const response = await clienteAxios.delete(`/politics/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
