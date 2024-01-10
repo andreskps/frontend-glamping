@@ -107,13 +107,15 @@ const PoliticsForm = ({ isEditing }) => {
       },
     };
 
-    mutation.mutate(politic);
+    mutation.mutate({
+      ...politic,
+      id: isEditing ? +id : null,
+    });
   };
 
   if (isLoading) return "Loading...";
   if (error) return "An error has occurred: " + error.message;
 
- 
   return (
     <div className="max-w-2xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
       <div className="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
