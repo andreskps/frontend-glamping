@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
+import { usePoliticsStore } from "../../store/politicsStore";
 import MultipleImageUpload from "../MultipleImageUpload";
 import {
   getProperty,
@@ -16,6 +17,9 @@ const PropertyForm = ({ isEditing }) => {
   const { id } = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const {politics} = usePoliticsStore((state) => state.politics);
+  
+
 
   const {
     isLoading,
@@ -38,15 +42,14 @@ const PropertyForm = ({ isEditing }) => {
     },
     onError: (error) => {
       toast.error(error.response.data.message);
-    }
-  }
-    
-  );
+    },
+  });
   const [formState, setFormState] = useState({
     name: "",
     description: "",
     location: "",
     capacity: 0,
+    politicId: "",
     prices: [{ description: "", price: "" }],
   });
 
@@ -81,7 +84,6 @@ const PropertyForm = ({ isEditing }) => {
     e.preventDefault();
 
     mutation.mutate(formState);
- 
   };
 
   return (
@@ -118,7 +120,7 @@ const PropertyForm = ({ isEditing }) => {
               value={formState.location}
               onChange={(e) => handleInputChange("location", e.target.value)}
             />
-          
+
             <Input
               type="number"
               placeholder="Capacidad"
@@ -127,48 +129,59 @@ const PropertyForm = ({ isEditing }) => {
               value={formState.capacity}
               onChange={(e) => handleInputChange("capacity", e.target.value)}
             />
+
+            <select
+              name="politicId"
+              id="politicId"
+              onChange={(e) => handleInputChange("politicId", e.target.value)}
+            >
+              <option value="">Selecciona una política</option>
+              {politics?.map((politic) => (
+                <option key={politic.id} value={politic.id}>
+                  {politic.name}
+                </option>
+              ))}
+            </select>
           </div>
 
-            <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
-                <label className="inline-block text-sm font-medium dark:text-white">
-                    Tarifas
-                </label>
-                <div className="mt-2 space-y-3">
-                    {formState.prices.map((price, index) => (
-                        <div key={index} className="flex space-x-3">
-                            <Input
-                                type="text"
-                                placeholder="Descripción"
-                                value={price.description}
-                                name="description"
-                                onChange={(e) =>
-                                    handlePriceChange(index, "description", e.target.value)
-                                }
-                            />
-                            <Input
-                                type="number"
-                                
-                                placeholder="Precio"
-                                name="price"
-                    
-                                value={price.price}
-                                onChange={(e) =>
-                                    handlePriceChange(index, "price", e.target.value)
-                                }
-                            />
-                        </div>
-                    ))}
-                    <button
-                        type="button"
-                        className="text-sm text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
-                        onClick={addPrice}
-                    >
-                        Agregar tarifa
-                    </button>
+          <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
+            <label className="inline-block text-sm font-medium dark:text-white">
+              Tarifas
+            </label>
+            <div className="mt-2 space-y-3">
+              {formState.prices.map((price, index) => (
+                <div key={index} className="flex space-x-3">
+                  <Input
+                    type="text"
+                    placeholder="Descripción"
+                    value={price.description}
+                    name="description"
+                    onChange={(e) =>
+                      handlePriceChange(index, "description", e.target.value)
+                    }
+                  />
+                  <Input
+                    type="number"
+                    placeholder="Precio"
+                    name="price"
+                    value={price.price}
+                    onChange={(e) =>
+                      handlePriceChange(index, "price", e.target.value)
+                    }
+                  />
                 </div>
+              ))}
+              <button
+                type="button"
+                className="text-sm text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
+                onClick={addPrice}
+              >
+                Agregar tarifa
+              </button>
             </div>
+          </div>
 
-            {/* <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
+          {/* <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
                 <label className="inline-block text-sm font-medium dark:text-white">
                     Imágenes
                 </label>
@@ -177,22 +190,22 @@ const PropertyForm = ({ isEditing }) => {
                 </div>
             </div> */}
 
-            <div className="mt-8 flex justify-end gap-x-2">
-                <Button
-                    type="button"
-                    className="border-gray-300 text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
-                    onClick={() => navigate("/admin/propiedades")}
-                >
-                    Cancelar
-                </Button>
-                <Button
-                    type="submit"
-                    className="bg-blue-500 text-white hover:bg-blue-600"
-                >
-                    {isEditing ? "Actualizar" : "Crear"}
-                </Button>
-            </div>
-            
+          <div className="mt-8 flex justify-end gap-x-2">
+            <Button
+              type="button"
+              className="border-gray-300 text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
+              onClick={() => navigate("/admin/propiedades")}
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="submit"
+              className="bg-blue-500 text-white hover:bg-blue-600"
+            >
+              {isEditing ? "Actualizar" : "Crear"}
+            </Button>
+          </div>
+
           {/* <MultipleImageUpload onUpload={handleImageUpload} /> */}
           {/* ... (rest of your form components) */}
         </form>
