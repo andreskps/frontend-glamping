@@ -24,14 +24,11 @@ export const getPropertiesByOwner = async () => {
 }
 
 export const updateProperty = async (property) => {
-    
+   
+    const { id, ...rest } = property;
     try {
-        const response = await clienteAxios.put(`/properties/${property.id}`, {
-            name: property.name,
-            description: property.description,
-            location: property.location,
-            capacity: property.price,
-            prices: property.prices,
+        const response = await clienteAxios.put(`/properties/${id}`, {
+            ...rest
         });
         return response.data;
     } catch (error) {

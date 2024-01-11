@@ -17,9 +17,7 @@ const PropertyForm = ({ isEditing }) => {
   const { id } = useParams();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const {politics} = usePoliticsStore((state) => state.politics);
-  
-
+  const { politics } = usePoliticsStore((state) => state.politics);
 
   const {
     isLoading,
@@ -53,9 +51,21 @@ const PropertyForm = ({ isEditing }) => {
     prices: [{ description: "", price: "" }],
   });
 
+  // Estado de los cambios en el formulario
+  const [formChanges, setFormChanges] = useState({
+    id: isEditing ? id : null,
+  });
+
+  // Manejador de cambios en el formulario
+  // const handleInputChange = (key, value) => {
+  //   setFormChanges({ ...formChanges, [key]: value });
+  // };
   useEffect(() => {
     if (isEditing && property) {
-      setFormState(property);
+      setFormState({
+        ...property,
+        politicId: property?.politic?.id,
+      });
     }
   }, [isEditing, property]);
 
@@ -64,16 +74,25 @@ const PropertyForm = ({ isEditing }) => {
   };
 
   const handleInputChange = (key, value) => {
+    setFormChanges({ ...formChanges, [key]: value });
     setFormState({ ...formState, [key]: value });
   };
 
   const handlePriceChange = (index, key, value) => {
     const newPrices = [...formState.prices];
     newPrices[index][key] = value;
+    setFormChanges({ ...formChanges, prices: newPrices });
     setFormState({ ...formState, prices: newPrices });
   };
 
   const addPrice = () => {
+
+    // setFormChanges({
+    //   ...formChanges,
+    //   prices: [...formChanges?.prices, { description: "", price: "" }],
+    // })
+
+
     setFormState({
       ...formState,
       prices: [...formState.prices, { description: "", price: "" }],
@@ -83,8 +102,12 @@ const PropertyForm = ({ isEditing }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    mutation.mutate(formState);
+    mutation.mutate(formChanges);
   };
+
+  if (isLoading) return <p>Cargando...</p>;
+
+  if (error) return <p>Hubo un error al cargar la propiedad</p>;
 
   return (
     <div className="max-w-2xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -133,11 +156,16 @@ const PropertyForm = ({ isEditing }) => {
             <select
               name="politicId"
               id="politicId"
+              value={formState.politicId}
               onChange={(e) => handleInputChange("politicId", e.target.value)}
             >
               <option value="">Selecciona una política</option>
               {politics?.map((politic) => (
-                <option key={politic.id} value={politic.id}>
+                <option
+                  key={politic.id}
+                  selected={politic.id === formState.politicId}
+                  value={politic.id}
+                >
                   {politic.name}
                 </option>
               ))}
