@@ -40,7 +40,9 @@ export const updateProperty = async (property) => {
 export const getProperty = async (id) => {
     try {
         const response = await clienteAxios.get(`/properties/${id}`);
+        console.log(response.data);
         return response.data;
+
     } catch (error) {
         console.log(error);
         throw error;
