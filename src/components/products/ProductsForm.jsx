@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Input from "../ui/forms/Input";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
@@ -18,7 +18,7 @@ const ProductsForm = ({ isEditing }) => {
 
   const navigate = useNavigate();
 
-  const [formState, setFormState] = useState({
+  const [inputs, setInputs] = useState({
     name: "",
     description: "",
     price: 0,
@@ -35,18 +35,23 @@ const ProductsForm = ({ isEditing }) => {
     enabled: isEditing,
   });
 
-
-  useEffect(()=>{
-    if(isEditing && product) {
-      setFormState(product)
-    }    
-  },[isEditing,product])
-
+  useEffect(() => {
+    if (isEditing && product) {
+      setInputs({
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        stock: product.stock,
+      });
+    }
+  }, [isEditing, product]);
 
   const handleInputChange = (key, value) => {
-    setFormState({ ...formState, [key]: value });
+    setInputs({
+      ...inputs,
+      [key]: value,
+    });
   };
-
 
   const mutation = useMutation({
     mutationFn: isEditing ? updateProduct : createProduct,
@@ -64,17 +69,26 @@ const ProductsForm = ({ isEditing }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-// ;
-//     const requiredFields = ["name", "description", "price"];
+    // ;
+    //     const requiredFields = ["name", "description", "price"];
 
-//     const hasEmptyFields = requiredFields.some((field) => !data[field]);
+    //     const hasEmptyFields = requiredFields.some((field) => !data[field]);
 
-//     if (hasEmptyFields) {
-//       return toast.error("Por favor, rellena todos los campos");
-//     }
+    //     if (hasEmptyFields) {
+    //       return toast.error("Por favor, rellena todos los campos");
+    //     }
+
+    let product = {
+      name: inputs.name,
+      description: inputs.description,
+      price: inputs.price,
+      stock: inputs.stock,
+    };
+
+    if (isEditing) product.id = +id;
+
     mutation.mutate({
-    
-      ...formState,
+      ...product,
       propertyId: getProperty,
     });
   };
@@ -95,7 +109,7 @@ const ProductsForm = ({ isEditing }) => {
           <div className="mt-2 space-y-3">
             <Input
               type="text"
-              value={formState.name}
+              value={inputs.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
               placeholder="Nombre"
               name="name"
@@ -106,25 +120,21 @@ const ProductsForm = ({ isEditing }) => {
               placeholder="Descripción"
               name="description"
               id="description"
-              value={formState.description}
+              value={inputs.description}
               onChange={(e) => handleInputChange("description", e.target.value)}
             />
             <Input
-            
               type="text"
               placeholder="Precio"
-              value={formState.price}
+              value={inputs.price}
               onChange={(e) => handleInputChange("price", e.target.value)}
-
               name="price"
               id="price"
             />
             <Input
               type="number"
-              value={formState.stock}
+              value={inputs.stock}
               onChange={(e) => handleInputChange("stock", e.target.value)}
-              
-
               placeholder="Stock"
               name="stock"
             />
