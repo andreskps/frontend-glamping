@@ -11,28 +11,8 @@ import {
 
 const PoliticsForm = ({ isEditing }) => {
   const { id } = useParams();
-
   const queryClient = useQueryClient();
-
   const navigate = useNavigate();
-
-  const [formState, setFormState] = useState({
-    name: "",
-    description: "",
-    details: {
-      cancellation: {
-        status: false,
-        days_prevents: "",
-        penalty: "",
-      },
-      check_in: {
-        hour: "",
-      },
-      check_out: {
-        hour: "",
-      },
-    },
-  });
 
   const [inputs, setInputs] = useState({
     name: "",

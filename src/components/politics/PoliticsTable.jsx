@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import SimpleTable from "../Table/SimpleTable";
-import { getPolitics,deletePolitic } from "../../services/politicsService";
+import { getPolitics, deletePolitic } from "../../services/politicsService";
 import { usePoliticsStore } from "../../store/politicsStore";
 
 const PoliticsTable = () => {
@@ -29,9 +29,6 @@ const PoliticsTable = () => {
       toast.error(error.response.data.message);
     },
   });
-
-
-
 
   if (isLoading) return "Loading...";
 
@@ -66,7 +63,12 @@ const PoliticsTable = () => {
     navigate(`/admin/politicas/editar/${id}`);
   };
   return (
-    <SimpleTable columns={columns} data={politics} handleEdit={handleEdit} handleDelete={handleDelete}/>
+    <SimpleTable
+      columns={columns}
+      data={politics}
+      handleEdit={handleEdit}
+      handleDelete={handleDelete}
+    />
   );
 };
 
