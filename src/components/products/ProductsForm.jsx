@@ -11,7 +11,7 @@ import {
 import { usePropertiesStore } from "../../store/propertiesStore";
 const ProductsForm = ({ isEditing }) => {
   const { id } = useParams();
-
+  
   const getProperty = usePropertiesStore((state) => state.property);
 
   const queryClient = useQueryClient();

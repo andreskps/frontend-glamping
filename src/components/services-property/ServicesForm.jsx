@@ -18,7 +18,7 @@ const ServicesForm = ({ isEditing }) => {
 
   const navigate = useNavigate();
 
-  const [formState, setFormState] = useState({
+  const [inputs, setInputs] = useState({
     name: "",
     description: "",
     price: "",
@@ -37,12 +37,17 @@ const ServicesForm = ({ isEditing }) => {
 
   useEffect(() => {
     if (isEditing && service) {
-      setFormState(service);
+      setInputs({	
+        name: service.name,
+        description: service.description,
+        price: service.price,
+        propertyId: service.propertyId
+      });
     }
   }, [isEditing, service]);
 
   const handleInputChange = (key, value) => {
-    setFormState({ ...formState, [key]: value });
+    setInputs({ ...inputs, [key]: value });
   };
 
   const mutation = useMutation({
@@ -61,7 +66,18 @@ const ServicesForm = ({ isEditing }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutation.mutate(formState);
+
+    let service = {
+      name: inputs.name,
+      description: inputs.description,
+      price: inputs.price,
+      propertyId: inputs.propertyId
+    };
+
+    if (isEditing) service.id = +id;
+
+
+    mutation.mutate(service);
   };
 
   if (isLoading) return <div>Cargando...</div>;
@@ -81,7 +97,7 @@ const ServicesForm = ({ isEditing }) => {
             <Input
               label="Nombre"
               name="name"
-              value={formState.name}
+              value={inputs.name}
               placeholder="Nombre del servicio"
               onChange={
                 (e) => handleInputChange(e.target.name, e.target.value)
@@ -92,7 +108,7 @@ const ServicesForm = ({ isEditing }) => {
               label="Descripción"
               name="description"
               placeholder="Descripción del servicio"
-              value={formState.description}
+              value={inputs.description}
               onChange={
                 (e) => handleInputChange(e.target.name, e.target.value)
               }
@@ -102,7 +118,7 @@ const ServicesForm = ({ isEditing }) => {
               label="Precio"
               name="price"
               placeholder="Precio del servicio"
-              value={formState.price}
+              value={inputs.price}
               onChange={
                 (e) => handleInputChange(e.target.name, e.target.value)
               }
