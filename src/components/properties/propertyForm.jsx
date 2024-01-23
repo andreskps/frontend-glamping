@@ -9,6 +9,7 @@ import {
   getProperty,
   createProperty,
   updateProperty,
+  uploadImage
 } from "../../services/propertyService";
 import Input from "../ui/forms/Input";
 import Button from "../ui/forms/Button";
@@ -109,8 +110,18 @@ const PropertyForm = ({ isEditing }) => {
     }
   }, [isEditing, property]);
 
-  const handleImageUpload = (files) => {
-    console.log("Imágenes cargadas:", files);
+  const handleImageUpload = async (files) => {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append("file", file);
+    });
+    try {
+      console.log(formData.getAll("file"));
+      const response = await uploadImage(formData.getAll("file"));
+      console.log(response.message);
+    } catch (error) {
+       console.log(error);
+    }
   };
 
   const handleInputChange = (key, value) => {
@@ -126,10 +137,6 @@ const PropertyForm = ({ isEditing }) => {
   };
 
   const addPrice = () => {
-    // setFormChanges({
-    //   ...formChanges,
-    //   prices: [...formChanges?.prices, { description: "", price: "" }],
-    // })
 
     setFormState({
       ...formState,
@@ -153,7 +160,7 @@ const PropertyForm = ({ isEditing }) => {
 
   if (error) return <p>Hubo un error al cargar la propiedad</p>;
 
-  console.log("formState", formState);
+
   return (
     <div className="max-w-2xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
       <div className="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
@@ -172,13 +179,14 @@ const PropertyForm = ({ isEditing }) => {
               value={formState.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
             />
-            {/* <textarea
+            <textarea
               className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
               placeholder="Descripción"
               value={formState.description}
+              onChange={(e) => handleInputChange("description", e.target.value)}
               name="description"
               id="description"
-            /> */}
+            />
 
             <Input
               type="text"
@@ -285,14 +293,14 @@ const PropertyForm = ({ isEditing }) => {
             </div>
           </div>
 
-          {/* <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
+          <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
                 <label className="inline-block text-sm font-medium dark:text-white">
                     Imágenes
                 </label>
                 <div className="mt-2 space-y-3">
                     <MultipleImageUpload onUpload={handleImageUpload} />
                 </div>
-            </div> */}
+            </div>
 
           <div className="mt-8 flex justify-end gap-x-2">
             <Button
@@ -309,9 +317,6 @@ const PropertyForm = ({ isEditing }) => {
               {isEditing ? "Actualizar" : "Crear"}
             </Button>
           </div>
-
-          {/* <MultipleImageUpload onUpload={handleImageUpload} /> */}
-          {/* ... (rest of your form components) */}
         </form>
       </div>
     </div>

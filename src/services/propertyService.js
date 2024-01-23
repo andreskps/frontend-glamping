@@ -68,3 +68,12 @@ export const deleteProperty = async (id) => {
         throw error;
     }
 }
+
+export const uploadImage = async (files) => {
+    try {
+        const response = await clienteAxios.post("/properties/upload/1280be5d-64a6-4307-af31-89c0487edb8b", files);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
