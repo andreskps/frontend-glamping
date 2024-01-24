@@ -3,13 +3,15 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 import { usePoliticsStore } from "../../store/politicsStore";
 import MultipleImageUpload from "../MultipleImageUpload";
 import {
   getProperty,
   createProperty,
   updateProperty,
-  uploadImage
+  uploadImage,
+  deleteImage
 } from "../../services/propertyService";
 import Input from "../ui/forms/Input";
 import Button from "../ui/forms/Button";
@@ -111,24 +113,21 @@ const PropertyForm = ({ isEditing }) => {
   }, [isEditing, property]);
 
   const handleImageUpload = async (files) => {
-
-    if(!files.length) return;
+    if (!files.length) return;
 
     const formData = new FormData();
     files.forEach((file) => {
       formData.append("files", file);
     });
     try {
+      const response = await uploadImage(id, formData);
 
-      const response = await uploadImage(id,formData);
-      
-
+      queryClient.invalidateQueries("property",id);
       toast.success("Imágenes subidas correctamente");
 
 
-
     } catch (error) {
-       console.log(error);
+      console.log(error);
     }
   };
 
@@ -145,12 +144,25 @@ const PropertyForm = ({ isEditing }) => {
   };
 
   const addPrice = () => {
-
     setFormState({
       ...formState,
       prices: [...formState.prices, { description: "", price: "" }],
     });
   };
+
+  const handleDeleteImage = async (id) => {
+    try {
+      const confirm = window.confirm("¿Estás seguro de eliminar la imagen?");
+      if (!confirm) return;
+      await deleteImage(id);
+
+      queryClient.invalidateQueries("property",id);
+      toast.success("Imagen eliminada correctamente");
+    } catch (error) {
+      toast.error("Hubo un error al eliminar la imagen");
+    }
+  }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -167,7 +179,6 @@ const PropertyForm = ({ isEditing }) => {
   if (isLoading) return <p>Cargando...</p>;
 
   if (error) return <p>Hubo un error al cargar la propiedad</p>;
-
 
   return (
     <div className="max-w-2xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -301,14 +312,38 @@ const PropertyForm = ({ isEditing }) => {
             </div>
           </div>
 
-          <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
-                <label className="inline-block text-sm font-medium dark:text-white">
-                    Imágenes
-                </label>
-                <div className="mt-2 space-y-3">
-                    <MultipleImageUpload onUpload={handleImageUpload} />
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {isEditing &&
+              formState?.images?.map((image) => {
+                
+                return (
+                  <div key={image.url} className="relative group cursor-pointer">
+                  <img
+                    src={image.url}
+                    className="h-full w-full object-cover rounded-md hover:opacity-75"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black bg-opacity-50">
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteImage(image.id)}
+                      className="p-2 bg-red-500 text-white rounded-full"
+                    >
+                      <MdOutlineDeleteOutline className="w-6 h-6" />
+                    </button>
+                  </div>
                 </div>
+                );
+              })}
+          </div>
+
+          <div className="py-6 mt-10 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
+            <label className="inline-block text-sm font-medium dark:text-white">
+              Imágenes
+            </label>
+            <div className="mt-2 space-y-3">
+              <MultipleImageUpload onUpload={handleImageUpload} />
             </div>
+          </div>
 
           <div className="mt-8 flex justify-end gap-x-2">
             <Button
