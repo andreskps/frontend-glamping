@@ -113,11 +113,11 @@ const PropertyForm = ({ isEditing }) => {
   const handleImageUpload = async (files) => {
     const formData = new FormData();
     files.forEach((file) => {
-      formData.append("file", file);
+      formData.append("files", file);
     });
     try {
-      console.log(formData.getAll("file"));
-      const response = await uploadImage(formData.getAll("file"));
+
+      const response = await uploadImage(id,formData);
       console.log(response.message);
     } catch (error) {
        console.log(error);
