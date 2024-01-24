@@ -111,6 +111,9 @@ const PropertyForm = ({ isEditing }) => {
   }, [isEditing, property]);
 
   const handleImageUpload = async (files) => {
+
+    if(!files.length) return;
+
     const formData = new FormData();
     files.forEach((file) => {
       formData.append("files", file);
@@ -118,7 +121,12 @@ const PropertyForm = ({ isEditing }) => {
     try {
 
       const response = await uploadImage(id,formData);
-      console.log(response.message);
+      
+
+      toast.success("Imágenes subidas correctamente");
+
+
+
     } catch (error) {
        console.log(error);
     }

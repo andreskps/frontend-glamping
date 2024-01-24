@@ -1,8 +1,21 @@
-import React from 'react';
+import {useState} from 'react';
 import { useDropzone } from 'react-dropzone';
 import 'react-dropzone-uploader/dist/styles.css';
 
 const MultipleImageUpload = ({ onUpload }) => {
+
+  const [files, setFiles] = useState([]);
+
+
+
+
+  const handleUpload = () => {
+    onUpload(files)
+    setFiles([])
+  }
+
+
+
   const {
     getRootProps,
     getInputProps,
@@ -12,7 +25,8 @@ const MultipleImageUpload = ({ onUpload }) => {
   } = useDropzone({
     accept: 'image/*',
     onDrop: (acceptedFiles) => {
-      onUpload(acceptedFiles);
+      setFiles(acceptedFiles)
+      
     }
   });
 
@@ -39,11 +53,14 @@ const MultipleImageUpload = ({ onUpload }) => {
       <div className="mt-4">
         <h3 className="text-lg font-semibold">Imágenes seleccionadas:</h3>
         <ul>
-          {acceptedFiles.map(file => (
-            <li key={file.path} className="text-gray-600">{file.path}</li>
+          {files.map(file => (
+             <img key={file.path} src={URL.createObjectURL(file)} alt={file.name} className="h-20" />
           ))}
         </ul>
       </div>
+
+      <button type="button" onClick={handleUpload} className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Subir</button>
+
     </div>
   );
 };
