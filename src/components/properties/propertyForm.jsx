@@ -18,6 +18,7 @@ import Button from "../ui/forms/Button";
 
 const PropertyForm = ({ isEditing }) => {
   const { id } = useParams();
+  const [propertyImages, setPropertyImages] = useState([]);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { politics } = usePoliticsStore((state) => state.politics);
@@ -83,6 +84,7 @@ const PropertyForm = ({ isEditing }) => {
     politicId: "",
     prices: [{ description: "", price: "" }],
     daysAvailability: [],
+    files: [],
   });
 
   // Estado de los cambios en el formulario
@@ -113,22 +115,27 @@ const PropertyForm = ({ isEditing }) => {
   }, [isEditing, property]);
 
   const handleImageUpload = async (files) => {
-    if (!files.length) return;
-
-    const formData = new FormData();
-    files.forEach((file) => {
-      formData.append("files", file);
-    });
-    try {
-      const response = await uploadImage(id, formData);
-
-      queryClient.invalidateQueries("property",id);
-      toast.success("Imágenes subidas correctamente");
 
 
-    } catch (error) {
-      console.log(error);
-    }
+    setPropertyImages([...propertyImages, ...files]);
+    // console.log(propertyImages)
+
+    // if (!files.length) return;
+
+    // const formData = new FormData();
+    // files.forEach((file) => {
+    //   formData.append("files", file);
+    // });
+    // try {
+    //   const response = await uploadImage(id, formData);
+
+    //   queryClient.invalidateQueries("property",id);
+    //   toast.success("Imágenes subidas correctamente");
+
+
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const handleInputChange = (key, value) => {
@@ -173,6 +180,7 @@ const PropertyForm = ({ isEditing }) => {
         })
       : mutation.mutate({
           ...formState,
+          files: propertyImages,
         });
   };
 
