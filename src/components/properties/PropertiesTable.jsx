@@ -8,6 +8,7 @@ import {
   deleteProperty,
 } from "../../services/propertyService";
 import SimpleTable from "../Table/SimpleTable";
+import CardTable from "../Table/CardTable";
 
 const PropertiesTable = () => {
   const navigate = useNavigate();
@@ -66,12 +67,14 @@ const PropertiesTable = () => {
   }
 
   return (
-    <SimpleTable
-      data={data}
-      columns={colums}
-      handleEdit={handleEdit}
-      handleDelete={handleDelete}
-    />
+    // <SimpleTable
+    //   data={data}
+    //   columns={colums}
+    //   handleEdit={handleEdit}
+    //   handleDelete={handleDelete}
+    // />
+    <CardTable data={data} handleEdit={handleEdit} handleDelete={handleDelete}/>
+
   );
 };
 
