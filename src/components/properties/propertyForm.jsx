@@ -116,26 +116,27 @@ const PropertyForm = ({ isEditing }) => {
 
   const handleImageUpload = async (files) => {
 
+    if (!files.length) return;
 
     setPropertyImages([...propertyImages, ...files]);
-    // console.log(propertyImages)
 
-    // if (!files.length) return;
+    if(!isEditing) return;  // Si no está editando, no subir las imágenes hasta que le den crear
+    
+    
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+    try {
+      const response = await uploadImage(id, formData);
 
-    // const formData = new FormData();
-    // files.forEach((file) => {
-    //   formData.append("files", file);
-    // });
-    // try {
-    //   const response = await uploadImage(id, formData);
-
-    //   queryClient.invalidateQueries("property",id);
-    //   toast.success("Imágenes subidas correctamente");
+      queryClient.invalidateQueries("property",id);
+      toast.success("Imágenes subidas correctamente");
 
 
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleInputChange = (key, value) => {
@@ -159,6 +160,13 @@ const PropertyForm = ({ isEditing }) => {
 
   const handleDeleteImage = async (id) => {
     try {
+
+      if(formState?.images?.length === 1){
+        toast.error("Debes dejar al menos una imagen");
+        return;
+      }
+
+
       const confirm = window.confirm("¿Estás seguro de eliminar la imagen?");
       if (!confirm) return;
       await deleteImage(id);
