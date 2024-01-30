@@ -365,7 +365,10 @@ const PropertyForm = ({ isEditing }) => {
             <Button
               type="button"
               className="border-gray-300 text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
-              onClick={() => navigate("/admin/propiedades")}
+              onClick={() =>{ 
+                navigate("/admin/propiedades")
+                window.scrollTo(0,0)
+            }}
             >
               Cancelar
             </Button>

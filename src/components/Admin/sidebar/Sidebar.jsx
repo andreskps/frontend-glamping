@@ -12,7 +12,6 @@ import { IoPeopleOutline } from "react-icons/io5";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 
 const Sidebar = () => {
-
   const links = [
     {
       name: "Inicio",
@@ -27,44 +26,44 @@ const Sidebar = () => {
     {
       name: "Propiedades",
       icon: <BsHouseHeart />,
-      subLinks: [{
-        name:"Ver Propiedades",
-        link:"/admin/propiedades",
-      },{
-        name:"Calendario",
-        link:"/admin/calendario",
-      },{
-        name:"Politicas",
-        link:"/admin/politicas",
-      },{
-        name:"Tarifas",
-        link:"/admin/tarifas",
-      },
-    ],
+      subLinks: [
+        {
+          name: "Ver Propiedades",
+          link: "/admin/propiedades",
+        },
+        {
+          name: "Politicas",
+          link: "/admin/politicas",
+        },
+      ],
     },
     {
       name: "Catálogo",
       icon: <GrCatalog />,
-      subLinks: [{
-        name:"Productos",
-        link:"/admin/productos",
-      },{
-        name:"Servicios",
-        link:"/admin/servicios",
-      }
-    ],
+      subLinks: [
+        {
+          name: "Productos",
+          link: "/admin/productos",
+        },
+        {
+          name: "Servicios",
+          link: "/admin/servicios",
+        },
+      ],
     },
     {
-      name:"Marketing",
-      icon:<HiSpeakerphone/>,
-      subLinks:[{
-        name:"Promociones",
-        link:"/admin/promociones",
-      },{
-        name:"Cupones",
-        link:"/admin/cupones",
-      },
-    ],
+      name: "Marketing",
+      icon: <HiSpeakerphone />,
+      subLinks: [
+        {
+          name: "Promociones",
+          link: "/admin/promociones",
+        },
+        {
+          name: "Cupones",
+          link: "/admin/cupones",
+        },
+      ],
     },
     {
       name: "Clientes",
@@ -76,9 +75,7 @@ const Sidebar = () => {
       icon: <HiOutlineDocumentReport />,
       subLinks: [],
     },
-  
   ];
-
 
   return (
     <>
@@ -118,8 +115,11 @@ const Sidebar = () => {
                   key={index}
                   id="projects-accordion"
                 >
-                  
-                  <AccordionLink name={link.name} icon={link.icon} subLinks={link.subLinks} />
+                  <AccordionLink
+                    name={link.name}
+                    icon={link.icon}
+                    subLinks={link.subLinks}
+                  />
                 </li>
               ) : (
                 <li key={index}>
