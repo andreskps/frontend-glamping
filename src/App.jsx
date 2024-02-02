@@ -19,6 +19,7 @@ import ServiceEdit from "./pages/services-property/ServiceEdit";
 import PoliticsPage from "./pages/politics/PoliticsPage";
 import PoliticCreate from "./pages/politics/PoliticCreate";
 import PoliticEdit from "./pages/politics/PoliticEdit";
+import MapView from "./components/map/MapView";
 
 function App() {
   if (localStorage.getItem("theme") === "dark") {
@@ -39,7 +40,7 @@ function App() {
           path="/"
           element={
             <div>
-              <h1>Home</h1>
+              <MapView />
             </div>
           }
         />
