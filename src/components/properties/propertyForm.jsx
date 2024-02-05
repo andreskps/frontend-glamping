@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { usePoliticsStore } from "../../store/politicsStore";
 import MultipleImageUpload from "../MultipleImageUpload";
+import MapView from "../map/MapView";
 import {
   getProperty,
   createProperty,
@@ -223,14 +224,15 @@ const PropertyForm = ({ isEditing }) => {
               id="description"
             />
 
-            <Input
+            {/* <Input
               type="text"
               placeholder="Dirección"
               name="location"
               id="location"
               value={formState.location}
               onChange={(e) => handleInputChange("location", e.target.value)}
-            />
+            /> */}
+            <MapView />
 
             <Input
               type="number"

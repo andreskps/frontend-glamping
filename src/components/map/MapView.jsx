@@ -57,12 +57,11 @@ const MapView = () => {
   
     setLocationSelected(newLocation);
 
-    console.log(locationSelected)
   };
 
 
   const handleSearchLocation = async (inputValue) => {
-    console.log(inputValue)
+
     try {
       const response = await axios.get(
         `https://nominatim.openstreetmap.org/search?format=json&q=${inputValue}`
@@ -78,14 +77,11 @@ const MapView = () => {
     }
    
   }
-
-
-
   return (
-    <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4">
+    <div className="">
       {/* Buscador */}
-      <div className="w-full lg:w-1/3 relative">
-        <AsyncSelect
+      <div className="relative z-10">
+        <AsyncSelect 
           loadOptions={handleSearchLocation}
           onChange={(e) => handleLocationSelect(e.value)}
           placeholder="Buscar lugar"
@@ -97,7 +93,7 @@ const MapView = () => {
       </div>
 
       {/* Mapa */}
-      <div className="w-full lg:w-2/3">
+      <div className="w-full mt-10 relative z-0">
         <MapContainer
           center={location}
           style={{ height: "400px", width: "100%" }}
@@ -118,8 +114,28 @@ const MapView = () => {
               },
             }}
           />
+
+        
+
         </MapContainer>
       </div>
+
+      {/* Información */}
+      <div className="mt-4">
+        <h3 className="text-lg font-semibold mb-2">Información</h3>
+        <div className="flex flex-col">
+          <p>
+            <span className="font-semibold">Dirección:</span>{" "}
+            {locationSelected.display_name}
+          </p>
+          <p>
+            <span className="font-semibold">Latitud:</span> {locationSelected.lat}
+          </p>
+          <p>
+            <span className="font-semibold">Longitud:</span> {locationSelected.lon}
+          </p>
+        </div>
+        </div>
     </div>
   );
 };
