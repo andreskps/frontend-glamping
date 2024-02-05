@@ -20,17 +20,38 @@ import PoliticsPage from "./pages/politics/PoliticsPage";
 import PoliticCreate from "./pages/politics/PoliticCreate";
 import PoliticEdit from "./pages/politics/PoliticEdit";
 import MapView from "./components/map/MapView";
+import { useLocationStore } from "./store/locationStore";
 
 function App() {
+
+  const setLocation = useLocationStore((state) => state.setLocation);
+
+
+  useEffect(() => {
+
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition((position) => {
+        setLocation({
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+        });
+      });
+    }
+},[])
+
   if (localStorage.getItem("theme") === "dark") {
     document.documentElement.classList.add("dark");
   } else {
     document.documentElement.classList.remove("dark");
   }
 
+  
+
 
   return (
     
+
+
 
 
     <BrowserRouter>
