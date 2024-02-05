@@ -3,6 +3,7 @@ import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import iconsvg from "../../assets/icons/marker.svg";
 import axios from "axios";
+import AsyncSelect from 'react-select/async';
 import { useState, useEffect } from "react";
 import { useLocationStore } from "../../store/locationStore";
 
@@ -18,8 +19,6 @@ const MapView = () => {
     getLocation.lat ? getLocation.lat : defaultCenter[0],
     getLocation.lon ? getLocation.lon : defaultCenter[1],
   ]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
   const [locationSelected, setLocationSelected] = useState({
     display_name: "",
     lat: "",
@@ -32,16 +31,13 @@ const MapView = () => {
     return null;
   };
 
-  const handleLocationSelect = (result) => {
+  const handleLocationSelect = async (result) => {
+    
+    const newLocationSelected = result;
+    setLocationSelected(newLocationSelected);   
     setLocation([result.lat, result.lon]);
-    setLocationSelected({
-      display_name: result.display_name,
-      lat: result.lat,
-      lon: result.lon,
-    });
-    console.log(locationSelected);
-    setSearchResults([]);
-  };
+
+};
 
   const onMarkerDragEnd = async (e) => {
     const newLat = e.target.getLatLng().lat;
@@ -65,12 +61,18 @@ const MapView = () => {
   };
 
 
-  const handleSearchLocation = async () => {
+  const handleSearchLocation = async (inputValue) => {
+    console.log(inputValue)
     try {
       const response = await axios.get(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${searchTerm}`
+        `https://nominatim.openstreetmap.org/search?format=json&q=${inputValue}`
       );
-      setSearchResults(response.data);
+    
+      return response.data.map((result) => ({
+        label: result.display_name,
+        value: result,
+      }));
+      
     } catch (error) {
       console.log(error);
     }
@@ -83,30 +85,15 @@ const MapView = () => {
     <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4">
       {/* Buscador */}
       <div className="w-full lg:w-1/3 relative">
-        <input
-          type="text"
+        <AsyncSelect
+          loadOptions={handleSearchLocation}
+          onChange={(e) => handleLocationSelect(e.value)}
           placeholder="Buscar lugar"
-          className="w-full border rounded py-2 px-4"
-          onChange={(e) => setSearchTerm(e.target.value)}
+          noOptionsMessage={() => "No hay resultados"}
+          className="w-full"
+          cacheOptions={true}
+          defaultOptions={true}
         />
-
-        <button onClick={handleSearchLocation} className="absolute right-4 top-1/2 transform -translate-y-1/2">
-          Buscar
-        </button>
-
-        {searchResults.length > 0 && (
-          <ul className="absolute top-full bg-white w-full border rounded mt-1">
-            {searchResults.map((result) => (
-              <li
-                key={result.place_id}
-                className="p-2 hover:bg-gray-200 cursor-pointer"
-                onClick={() => handleLocationSelect(result)}
-              >
-                {result.display_name}
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
 
       {/* Mapa */}
