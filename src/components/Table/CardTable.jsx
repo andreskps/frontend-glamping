@@ -28,7 +28,7 @@ const CardTable = ({ data,handleEdit,handleDelete }) => {
             
             <div>
                 <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Ubicación:</span>
-                <span className="text-sm text-gray-600 dark:text-gray-400">{item.location}</span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">{item.location.displayName}</span>
             </div>
 
             <div>

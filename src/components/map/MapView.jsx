@@ -12,7 +12,7 @@ const houseIcon = new Icon({
   iconSize: [25, 25],
 });
 
-const MapView = () => {
+const MapView = ({handleLocation}) => {
   const getLocation = useLocationStore((state) => state.location);
   const defaultCenter = [6.25184, -75.56359]; // Medellín
   const [location, setLocation] = useState([
@@ -20,7 +20,7 @@ const MapView = () => {
     getLocation.lon ? getLocation.lon : defaultCenter[1],
   ]);
   const [locationSelected, setLocationSelected] = useState({
-    display_name: "",
+    displayName: "",
     lat: "",
     lon: "",
   });
@@ -33,8 +33,14 @@ const MapView = () => {
 
   const handleLocationSelect = async (result) => {
     
-    const newLocationSelected = result;
-    setLocationSelected(newLocationSelected);   
+    const newLocationSelected = {
+      displayName: result.display_name,
+      lat: result.lat,
+      lon: result.lon,
+    }
+
+    await handleLocation(newLocationSelected);
+    setLocationSelected(result);   
     setLocation([result.lat, result.lon]);
 
 };
@@ -42,20 +48,22 @@ const MapView = () => {
   const onMarkerDragEnd = async (e) => {
     const newLat = e.target.getLatLng().lat;
     const newLng = e.target.getLatLng().lng;
-    console.log(newLat, newLng);
+   
 
     const response = await axios.get(
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${newLat}&lon=${newLng}`
     );
 
      const newLocation = {
-      display_name: response.data.display_name,
+      displayName: response.data.display_name,
       lat: newLat,
       lon: newLng,
     };
 
   
     setLocationSelected(newLocation);
+
+    await handleLocation(newLocation);
 
   };
 

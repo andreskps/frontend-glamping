@@ -80,12 +80,16 @@ const PropertyForm = ({ isEditing }) => {
   const [formState, setFormState] = useState({
     name: "",
     description: "",
-    location: "",
     capacity: 0,
     politicId: "",
     prices: [{ description: "", price: "" }],
     daysAvailability: [],
     files: [],
+    location: {
+      lat: 0,
+      lon: 0,
+      displayName: "",
+    }
   });
 
   // Estado de los cambios en el formulario
@@ -105,7 +109,18 @@ const PropertyForm = ({ isEditing }) => {
       setFormChanges({ ...formChanges, daysAvailability: newDays });
       setFormState({ ...formState, daysAvailability: newDays });
     }
+
   };
+
+
+  const handleLocationSelect = async (result) => {
+    const newLocationSelected = result;
+    setFormState((prevState) => ({
+      ...prevState,
+      location: newLocationSelected
+    }));
+  };
+
   useEffect(() => {
     if (isEditing && property) {
       setFormState({
@@ -183,6 +198,7 @@ const PropertyForm = ({ isEditing }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log(formState);
     isEditing
       ? mutation.mutate({
           ...formChanges,
@@ -232,7 +248,7 @@ const PropertyForm = ({ isEditing }) => {
               value={formState.location}
               onChange={(e) => handleInputChange("location", e.target.value)}
             /> */}
-            <MapView />
+            <MapView handleLocation={handleLocationSelect}/>
 
             <Input
               type="number"
