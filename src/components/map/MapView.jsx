@@ -12,12 +12,13 @@ const houseIcon = new Icon({
   iconSize: [25, 25],
 });
 
-const MapView = ({handleLocation}) => {
+const MapView = ({handleLocation,currentLocation}) => {
   const getLocation = useLocationStore((state) => state.location);
-  const defaultCenter = [6.25184, -75.56359]; // Medellín
+  const defaultCenter = [getLocation.lat , getLocation.lon];
   const [location, setLocation] = useState([
-    getLocation.lat ? getLocation.lat : defaultCenter[0],
-    getLocation.lon ? getLocation.lon : defaultCenter[1],
+     currentLocation ? currentLocation.lat : defaultCenter[0],
+     currentLocation ? currentLocation.lon : defaultCenter[1]
+
   ]);
   const [locationSelected, setLocationSelected] = useState({
     displayName: "",

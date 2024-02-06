@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
+import Select from 'react-select';
+
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { usePoliticsStore } from "../../store/politicsStore";
 import MultipleImageUpload from "../MultipleImageUpload";
@@ -12,7 +14,7 @@ import {
   createProperty,
   updateProperty,
   uploadImage,
-  deleteImage
+  deleteImage,
 } from "../../services/propertyService";
 import Input from "../ui/forms/Input";
 import Button from "../ui/forms/Button";
@@ -89,7 +91,7 @@ const PropertyForm = ({ isEditing }) => {
       lat: 0,
       lon: 0,
       displayName: "",
-    }
+    },
   });
 
   // Estado de los cambios en el formulario
@@ -109,15 +111,19 @@ const PropertyForm = ({ isEditing }) => {
       setFormChanges({ ...formChanges, daysAvailability: newDays });
       setFormState({ ...formState, daysAvailability: newDays });
     }
-
   };
-
 
   const handleLocationSelect = async (result) => {
     const newLocationSelected = result;
+
+    if (isEditing) {
+       return setFormChanges({ ...formChanges, location: newLocationSelected });
+    }
+
+
     setFormState((prevState) => ({
       ...prevState,
-      location: newLocationSelected
+      location: newLocationSelected,
     }));
   };
 
@@ -131,14 +137,12 @@ const PropertyForm = ({ isEditing }) => {
   }, [isEditing, property]);
 
   const handleImageUpload = async (files) => {
-
     if (!files.length) return;
 
     setPropertyImages([...propertyImages, ...files]);
 
-    if(!isEditing) return;  // Si no está editando, no subir las imágenes hasta que le den crear
-    
-    
+    if (!isEditing) return; // Si no está editando, no subir las imágenes hasta que le den crear
+
     const formData = new FormData();
     files.forEach((file) => {
       formData.append("files", file);
@@ -146,10 +150,8 @@ const PropertyForm = ({ isEditing }) => {
     try {
       const response = await uploadImage(id, formData);
 
-      queryClient.invalidateQueries("property",id);
+      queryClient.invalidateQueries("property", id);
       toast.success("Imágenes subidas correctamente");
-
-
     } catch (error) {
       console.log(error);
     }
@@ -176,24 +178,21 @@ const PropertyForm = ({ isEditing }) => {
 
   const handleDeleteImage = async (id) => {
     try {
-
-      if(formState?.images?.length === 1){
+      if (formState?.images?.length === 1) {
         toast.error("Debes dejar al menos una imagen");
         return;
       }
-
 
       const confirm = window.confirm("¿Estás seguro de eliminar la imagen?");
       if (!confirm) return;
       await deleteImage(id);
 
-      queryClient.invalidateQueries("property",id);
+      queryClient.invalidateQueries("property", id);
       toast.success("Imagen eliminada correctamente");
     } catch (error) {
       toast.error("Hubo un error al eliminar la imagen");
     }
-  }
-
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -212,6 +211,8 @@ const PropertyForm = ({ isEditing }) => {
   if (isLoading) return <p>Cargando...</p>;
 
   if (error) return <p>Hubo un error al cargar la propiedad</p>;
+
+  console.log(formState);
 
   return (
     <div className="max-w-2xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -240,15 +241,18 @@ const PropertyForm = ({ isEditing }) => {
               id="description"
             />
 
-            {/* <Input
-              type="text"
-              placeholder="Dirección"
-              name="location"
-              id="location"
-              value={formState.location}
-              onChange={(e) => handleInputChange("location", e.target.value)}
-            /> */}
-            <MapView handleLocation={handleLocationSelect}/>
+            <MapView
+              handleLocation={handleLocationSelect}
+              currentLocation={
+                isEditing
+                  ? {
+                      lat: property.location.lat,
+                      lon: property.location.lon,
+                      displayName: property.location.displayName,
+                    }
+                  : null
+              }
+            />
 
             <Input
               type="number"
@@ -282,7 +286,7 @@ const PropertyForm = ({ isEditing }) => {
             <label className="inline-block text-sm font-medium dark:text-white">
               Dias disponibles
             </label>
-            <div className="mt-2 space-y-3">
+            {/* <div className="mt-2 space-y-3">
               <details className="text-sm text-gray-500 hover:text-gray-600">
                 <summary className="text-sm text-gray-500 hover:text-gray-600 my-3">
                   Selecciona los días
@@ -306,7 +310,20 @@ const PropertyForm = ({ isEditing }) => {
                   </div>
                 ))}
               </details>
-            </div>
+            </div> */}
+            <Select
+              isMulti
+              options={days}
+              value={formState.daysAvailability.map((day) => {
+                return days.find((d) => d.value === day);
+              })}
+              onChange={(selected) => {
+                const selectedDays = selected.map((day) => day.value);
+                setFormChanges({ ...formChanges, daysAvailability: selectedDays });
+                setFormState({ ...formState, daysAvailability: selectedDays });
+              }}
+            />
+
           </div>
 
           <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
@@ -349,23 +366,25 @@ const PropertyForm = ({ isEditing }) => {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {isEditing &&
               formState?.images?.map((image) => {
-                
                 return (
-                  <div key={image.url} className="relative group cursor-pointer">
-                  <img
-                    src={image.url}
-                    className="h-full w-full object-cover rounded-md hover:opacity-75"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black bg-opacity-50">
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteImage(image.id)}
-                      className="p-2 bg-red-500 text-white rounded-full"
-                    >
-                      <MdOutlineDeleteOutline className="w-6 h-6" />
-                    </button>
+                  <div
+                    key={image.url}
+                    className="relative group cursor-pointer"
+                  >
+                    <img
+                      src={image.url}
+                      className="h-full w-full object-cover rounded-md hover:opacity-75"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-black bg-opacity-50">
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteImage(image.id)}
+                        className="p-2 bg-red-500 text-white rounded-full"
+                      >
+                        <MdOutlineDeleteOutline className="w-6 h-6" />
+                      </button>
+                    </div>
                   </div>
-                </div>
                 );
               })}
           </div>
@@ -383,10 +402,10 @@ const PropertyForm = ({ isEditing }) => {
             <Button
               type="button"
               className="border-gray-300 text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
-              onClick={() =>{ 
-                navigate("/admin/propiedades")
-                window.scrollTo(0,0)
-            }}
+              onClick={() => {
+                navigate("/admin/propiedades");
+                window.scrollTo(0, 0);
+              }}
             >
               Cancelar
             </Button>
