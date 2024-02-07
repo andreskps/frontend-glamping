@@ -69,7 +69,7 @@ const PoliticsForm = ({ isEditing }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const politic = {
+    let politic = {
       name: inputs.name,
       description: inputs.description,
       details: {
@@ -87,9 +87,10 @@ const PoliticsForm = ({ isEditing }) => {
       },
     };
 
+    if (isEditing) politic.id = +id;
+
     mutation.mutate({
       ...politic,
-      id: isEditing ? +id : null,
     });
   };
 

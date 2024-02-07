@@ -26,6 +26,27 @@ const MapView = ({handleLocation,currentLocation}) => {
     lon: "",
   });
 
+  useEffect(() => {
+
+    const getInformationLocation = async () => {
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${location[0]}&lon=${location[1]}`
+      );
+      setLocationSelected({
+        displayName: response.data.display_name,
+        lat: location[0],
+        lon: location[1],
+      });
+    };
+
+    getInformationLocation();
+  },[])
+    
+
+
+
+
+
   const ChangeView = ({ center }) => {
     const map = useMap();
     map.setView(center);
@@ -41,7 +62,7 @@ const MapView = ({handleLocation,currentLocation}) => {
     }
 
     await handleLocation(newLocationSelected);
-    setLocationSelected(result);   
+    setLocationSelected(newLocationSelected);   
     setLocation([result.lat, result.lon]);
 
 };
@@ -135,13 +156,7 @@ const MapView = ({handleLocation,currentLocation}) => {
         <div className="flex flex-col">
           <p>
             <span className="font-semibold">Dirección:</span>{" "}
-            {locationSelected.display_name}
-          </p>
-          <p>
-            <span className="font-semibold">Latitud:</span> {locationSelected.lat}
-          </p>
-          <p>
-            <span className="font-semibold">Longitud:</span> {locationSelected.lon}
+            {locationSelected.displayName}
           </p>
         </div>
         </div>

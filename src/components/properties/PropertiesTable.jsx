@@ -11,6 +11,7 @@ import {
 } from "../../services/propertyService";
 import SimpleTable from "../Table/SimpleTable";
 import CardTable from "../Table/CardTable";
+import { SpinnerCircle } from "../ui/spinners/SpinnerCircle";
 
 const PropertiesTable = () => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const PropertiesTable = () => {
     mutuation.mutate(id);
   };
 
-  if (isLoading) return "Loading...";
+  if (isLoading) return <SpinnerCircle/>
 
   if (error) return "An error has occurred: " + error.message;
 

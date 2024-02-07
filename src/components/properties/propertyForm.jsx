@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-import Select from 'react-select';
+import Select from "react-select";
 
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { usePoliticsStore } from "../../store/politicsStore";
@@ -99,27 +99,12 @@ const PropertyForm = ({ isEditing }) => {
     id: isEditing ? id : null,
   });
 
-  const handleDayChange = (day) => {
-    if (formState.daysAvailability.includes(day)) {
-      const newDays = formState.daysAvailability.filter(
-        (selectedDay) => selectedDay !== day
-      );
-      setFormChanges({ ...formChanges, daysAvailability: newDays });
-      setFormState({ ...formState, daysAvailability: newDays });
-    } else {
-      const newDays = [...formState.daysAvailability, day];
-      setFormChanges({ ...formChanges, daysAvailability: newDays });
-      setFormState({ ...formState, daysAvailability: newDays });
-    }
-  };
-
   const handleLocationSelect = async (result) => {
     const newLocationSelected = result;
 
     if (isEditing) {
-       return setFormChanges({ ...formChanges, location: newLocationSelected });
+      return setFormChanges({ ...formChanges, location: newLocationSelected });
     }
-
 
     setFormState((prevState) => ({
       ...prevState,
@@ -212,8 +197,6 @@ const PropertyForm = ({ isEditing }) => {
 
   if (error) return <p>Hubo un error al cargar la propiedad</p>;
 
-  console.log(formState);
-
   return (
     <div className="max-w-2xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
       <div className="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
@@ -263,7 +246,7 @@ const PropertyForm = ({ isEditing }) => {
               onChange={(e) => handleInputChange("capacity", e.target.value)}
             />
 
-            <select
+            {/* <select
               name="politicId"
               id="politicId"
               value={formState.politicId}
@@ -279,51 +262,54 @@ const PropertyForm = ({ isEditing }) => {
                   {politic.name}
                 </option>
               ))}
-            </select>
+            </select> */}
+
+            <label className="inline-block text-sm font-medium dark:text-white">
+              Seleccione una política
+            </label>
+
+            <Select
+              placeholder="Selecciona una política"
+              options={politics.map((politic) => ({
+                value: politic.id,
+                label: politic.name,
+              }))}
+              value={
+                formState?.politicId
+                  ? {
+                      value: formState.politicId,
+                      label: politics.find((p) => p.id === formState.politicId)
+                        ?.name,
+                    }
+                  : null
+              }
+              onChange={(selected) => {
+                setFormChanges({ ...formChanges, politicId: selected.value });
+                setFormState({ ...formState, politicId: selected.value });
+              }}
+            />
           </div>
 
           <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
-            <label className="inline-block text-sm font-medium dark:text-white">
+            <label className="inline-block text-sm font-medium dark:text-white m-2">
               Dias disponibles
             </label>
-            {/* <div className="mt-2 space-y-3">
-              <details className="text-sm text-gray-500 hover:text-gray-600">
-                <summary className="text-sm text-gray-500 hover:text-gray-600 my-3">
-                  Selecciona los días
-                </summary>
-                {days.map((day) => (
-                  <div class="flex items-center mb-4" key={day.value}>
-                    <input
-                      id={`default-checkbox-${day.value}`}
-                      type="checkbox"
-                      checked={formState.daysAvailability.includes(day.value)}
-                      value={day.value}
-                      onChange={() => handleDayChange(day.value)}
-                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                    />
-                    <label
-                      for={`default-checkbox-${day.label}`}
-                      class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    >
-                      {day.label}
-                    </label>
-                  </div>
-                ))}
-              </details>
-            </div> */}
             <Select
               isMulti
+              placeholder="Selecciona los días disponibles"
               options={days}
               value={formState.daysAvailability.map((day) => {
                 return days.find((d) => d.value === day);
               })}
               onChange={(selected) => {
                 const selectedDays = selected.map((day) => day.value);
-                setFormChanges({ ...formChanges, daysAvailability: selectedDays });
+                setFormChanges({
+                  ...formChanges,
+                  daysAvailability: selectedDays,
+                });
                 setFormState({ ...formState, daysAvailability: selectedDays });
               }}
             />
-
           </div>
 
           <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200 dark:border-gray-700 dark:first:border-transparent">
