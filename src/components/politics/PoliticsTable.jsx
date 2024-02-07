@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import SimpleTable from "../Table/SimpleTable";
 import { getPolitics, deletePolitic } from "../../services/politicsService";
 import { usePoliticsStore } from "../../store/politicsStore";
+import { SpinnerCircle } from "../ui/spinners/SpinnerCircle";
 
 const PoliticsTable = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const PoliticsTable = () => {
     },
   });
 
-  if (isLoading) return "Loading...";
+  if (isLoading) return <SpinnerCircle />;
 
   if (error) return "An error has occurred: " + error.message;
 

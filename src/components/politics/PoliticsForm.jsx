@@ -8,6 +8,7 @@ import {
   updatePolitic,
   getPolitic,
 } from "../../services/politicsService";
+import { SpinnerCircle } from "../ui/spinners/SpinnerCircle";
 
 const PoliticsForm = ({ isEditing }) => {
   const { id } = useParams();
@@ -94,7 +95,7 @@ const PoliticsForm = ({ isEditing }) => {
     });
   };
 
-  if (isLoading) return "Loading...";
+  if (isLoading) return <SpinnerCircle />;
   if (error) return "An error has occurred: " + error.message;
 
   return (

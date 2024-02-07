@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import SimpleTable from "../Table/SimpleTable";
 import { getServicesByProperty ,deleteService} from "../../services/servicesService";
 import { usePropertiesStore } from "../../store/propertiesStore";
+import { SpinnerCircle } from "../ui/spinners/SpinnerCircle";
 const ServicesTable = () => {
   const property = usePropertiesStore((state) => state.property);
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const ServicesTable = () => {
   });
 
   if (isLoading) {
-    return "Loading...";
+    return <SpinnerCircle />;
   }
 
   if (error) {

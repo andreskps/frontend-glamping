@@ -18,6 +18,7 @@ import {
 } from "../../services/propertyService";
 import Input from "../ui/forms/Input";
 import Button from "../ui/forms/Button";
+import { SpinnerCircle } from "../ui/spinners/SpinnerCircle";
 
 const PropertyForm = ({ isEditing }) => {
   const { id } = useParams();
@@ -193,7 +194,7 @@ const PropertyForm = ({ isEditing }) => {
         });
   };
 
-  if (isLoading) return <p>Cargando...</p>;
+  if (isLoading) return <SpinnerCircle />;
 
   if (error) return <p>Hubo un error al cargar la propiedad</p>;
 

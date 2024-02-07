@@ -7,6 +7,7 @@ import {
   getProductsByProperty,
 } from "../../services/productsService";
 import { usePropertiesStore } from "../../store/propertiesStore";
+import { SpinnerCircle } from "../ui/spinners/SpinnerCircle";
 const ProductsTable = () => {
   const property = usePropertiesStore((state) => state.property);
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const ProductsTable = () => {
     },
   ];
 
-  if (isLoading) return "Loading...";
+  if (isLoading) return <SpinnerCircle />;
 
   if (error) return "An error has occurred: " + error.message;
 

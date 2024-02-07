@@ -9,6 +9,7 @@ import {
   createProduct,
 } from "../../services/productsService";
 import { usePropertiesStore } from "../../store/propertiesStore";
+import { SpinnerCircle } from "../ui/spinners/SpinnerCircle";
 const ProductsForm = ({ isEditing }) => {
   const { id } = useParams();
   
@@ -93,7 +94,7 @@ const ProductsForm = ({ isEditing }) => {
     });
   };
 
-  if (isLoading) return "Cargando...";
+  if (isLoading) return <SpinnerCircle />;
 
   if (error) return `Error: ${error.message}`;
 

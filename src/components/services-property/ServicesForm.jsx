@@ -9,6 +9,7 @@ import {
   updateService,
   createService,
 } from "../../services/servicesService";
+import { SpinnerCircle } from "../ui/spinners/SpinnerCircle";
 const ServicesForm = ({ isEditing }) => {
   const { id } = useParams();
 
@@ -80,7 +81,7 @@ const ServicesForm = ({ isEditing }) => {
     mutation.mutate(service);
   };
 
-  if (isLoading) return <div>Cargando...</div>;
+  if (isLoading) return <SpinnerCircle />;
 
   if (error) return <div>Ha ocurrido un error: {error.message}</div>;
 
