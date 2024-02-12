@@ -57,6 +57,8 @@ const PropertyForm = ({ isEditing }) => {
     },
   ];
 
+  const categories = ["CABAÑA", "CHALET", "YURTA", "CASA_ARBOL", "DOMO"];
+
   const {
     isLoading,
     error,
@@ -225,6 +227,26 @@ const PropertyForm = ({ isEditing }) => {
               id="description"
             />
 
+            <Select
+              placeholder="Selecciona una categoria"
+              options={categories.map((category) => ({
+                value: category,
+                label: category
+              }))}
+              value={
+                formState?.category
+                  ? {
+                      value: formState.category,
+                      label: formState.category,
+                    }
+                  : null
+              }
+              onChange={(selected) => {
+                setFormChanges({ ...formChanges, category: selected.value });
+                setFormState({ ...formState, category: selected.value });
+              }}
+            />
+
             <MapView
               handleLocation={handleLocationSelect}
               currentLocation={
@@ -246,24 +268,6 @@ const PropertyForm = ({ isEditing }) => {
               value={formState.capacity}
               onChange={(e) => handleInputChange("capacity", e.target.value)}
             />
-
-            {/* <select
-              name="politicId"
-              id="politicId"
-              value={formState.politicId}
-              onChange={(e) => handleInputChange("politicId", e.target.value)}
-            >
-              <option value="">Selecciona una política</option>
-              {politics?.map((politic) => (
-                <option
-                  key={politic.id}
-                  selected={politic.id === formState.politicId}
-                  value={politic.id}
-                >
-                  {politic.name}
-                </option>
-              ))}
-            </select> */}
 
             <label className="inline-block text-sm font-medium dark:text-white">
               Seleccione una política
