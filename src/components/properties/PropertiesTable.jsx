@@ -9,13 +9,11 @@ import {
   getPropertiesByOwner,
   deleteProperty,
 } from "../../services/propertyService";
-import SimpleTable from "../Table/SimpleTable";
 import CardTable from "../Table/CardTable";
 import { SpinnerCircle } from "../ui/spinners/SpinnerCircle";
 
 const PropertiesTable = () => {
   const navigate = useNavigate();
-  const setProperties = usePropertiesStore((state) => state.setProperties);
 
   const queryClient = useQueryClient();
   const mutuation = useMutation({
@@ -65,10 +63,7 @@ const PropertiesTable = () => {
 
   if (error) return "An error has occurred: " + error.message;
 
-  if (isSuccess) {
-  
-    setProperties(data);
-  }
+
 
   return (
     // <SimpleTable

@@ -6,7 +6,6 @@ import { toast } from "react-hot-toast";
 import Select from "react-select";
 
 import { MdOutlineDeleteOutline } from "react-icons/md";
-import { usePoliticsStore } from "../../store/politicsStore";
 import MultipleImageUpload from "../MultipleImageUpload";
 import MapView from "../map/MapView";
 import {
@@ -16,16 +15,18 @@ import {
   uploadImage,
   deleteImage,
 } from "../../services/propertyService";
+
 import Input from "../ui/forms/Input";
 import Button from "../ui/forms/Button";
 import { SpinnerCircle } from "../ui/spinners/SpinnerCircle";
+import { getPolitics } from "../../services/politicsService";
 
 const PropertyForm = ({ isEditing }) => {
   const { id } = useParams();
   const [propertyImages, setPropertyImages] = useState([]);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { politics } = usePoliticsStore((state) => state.politics);
+
   const days = [
     {
       value: "MONDAY",
@@ -59,7 +60,6 @@ const PropertyForm = ({ isEditing }) => {
 
   const categories = ["CABAÑA", "CHALET", "YURTA", "CASA_ARBOL", "DOMO"];
 
-
   const {
     isLoading,
     error,
@@ -68,6 +68,15 @@ const PropertyForm = ({ isEditing }) => {
     queryKey: ["property", id],
     queryFn: () => (isEditing ? getProperty(id) : null),
     enabled: isEditing,
+  });
+
+  const {
+    isLoading: logadingPolitics,
+    error: errorPolitics,
+    data: politics,
+  } = useQuery({
+    queryKey: ["politics"],
+    queryFn: () => getPolitics(),
   });
 
   const mutation = useMutation({
@@ -186,7 +195,6 @@ const PropertyForm = ({ isEditing }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formState);
     isEditing
       ? mutation.mutate({
           ...formChanges,
@@ -197,9 +205,11 @@ const PropertyForm = ({ isEditing }) => {
         });
   };
 
-  if (isLoading) return <SpinnerCircle />;
+  if (isLoading || logadingPolitics) return <SpinnerCircle />;
 
-  if (error) return <p>Hubo un error al cargar la propiedad</p>;
+  if (error || errorPolitics)
+    return <p>Hubo un error al cargar la propiedad</p>;
+
 
   return (
     <div className="max-w-2xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
@@ -306,35 +316,34 @@ const PropertyForm = ({ isEditing }) => {
               value={formState.capacity}
               onChange={(e) => handleInputChange("capacity", e.target.value)}
             />
-           
 
-           <div>
-           <label className="inline-block text-sm font-medium dark:text-white">
-              Seleccione una política
-            </label>
+            <div>
+              <label className="inline-block text-sm font-medium dark:text-white">
+                Seleccione una política
+              </label>
 
-            <Select
-              placeholder="Selecciona una política"
-              options={politics.map((politic) => ({
-                value: politic.id,
-                label: politic.name,
-              }))}
-              value={
-                formState?.politicId
-                  ? {
-                      value: formState.politicId,
-                      label: politics.find((p) => p.id === formState.politicId)
-                        ?.name,
-                    }
-                  : null
-              }
-              onChange={(selected) => {
-                setFormChanges({ ...formChanges, politicId: selected.value });
-                setFormState({ ...formState, politicId: selected.value });
-              }}
-            />
-           </div>
-          
+              <Select
+                placeholder="Selecciona una política"
+                options={politics.map((politic) => ({
+                  value: politic.id,
+                  label: politic.name,
+                }))}
+                value={
+                  formState?.politicId
+                    ? {
+                        value: formState.politicId,
+                        label: politics.find(
+                          (p) => p.id === formState.politicId
+                        )?.name,
+                      }
+                    : null
+                }
+                onChange={(selected) => {
+                  setFormChanges({ ...formChanges, politicId: selected.value });
+                  setFormState({ ...formState, politicId: selected.value });
+                }}
+              />
+            </div>
           </div>
 
           <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
@@ -392,7 +401,6 @@ const PropertyForm = ({ isEditing }) => {
                  hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300
                   focus:outline-none  rounded-md border border-gray-300 dark:border-gray-700 px-4 py-2 mt-2 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 ease-in-out
                  "
-            
                 onClick={addPrice}
               >
                 Agregar tarifa

@@ -2,19 +2,15 @@ import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import SimpleTable from "../Table/SimpleTable";
 import { getPolitics, deletePolitic } from "../../services/politicsService";
-import { usePoliticsStore } from "../../store/politicsStore";
 import { SpinnerCircle } from "../ui/spinners/SpinnerCircle";
 
 const PoliticsTable = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const setPolitics = usePoliticsStore((state) => state.setPolitics);
-
   const {
     isLoading,
     error,
     data: politics,
-    isSuccess,
   } = useQuery({
     queryKey: ["politics"],
     queryFn: () => getPolitics(),
@@ -50,11 +46,6 @@ const PoliticsTable = () => {
     },
   ];
 
-  if (isSuccess) {
-    setPolitics({
-      politics: politics,
-    });
-  }
 
   const handleDelete = (id) => {
     mutation.mutate(id);
