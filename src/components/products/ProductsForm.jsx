@@ -12,7 +12,7 @@ import { usePropertiesStore } from "../../store/propertiesStore";
 import { SpinnerCircle } from "../ui/spinners/SpinnerCircle";
 const ProductsForm = ({ isEditing }) => {
   const { id } = useParams();
-  
+
   const getProperty = usePropertiesStore((state) => state.property);
 
   const queryClient = useQueryClient();
@@ -22,8 +22,8 @@ const ProductsForm = ({ isEditing }) => {
   const [inputs, setInputs] = useState({
     name: "",
     description: "",
-    price: 0,
-    stock: 0,
+    price: "",
+    stock: "",
   });
 
   const {
@@ -70,14 +70,14 @@ const ProductsForm = ({ isEditing }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // ;
-    //     const requiredFields = ["name", "description", "price"];
 
-    //     const hasEmptyFields = requiredFields.some((field) => !data[field]);
+    const requiredFields = ["name", "description", "price", "stock"];
 
-    //     if (hasEmptyFields) {
-    //       return toast.error("Por favor, rellena todos los campos");
-    //     }
+    const hasEmptyFields = requiredFields.some((field) => !inputs[field]);
+
+    if (hasEmptyFields) {
+      return toast.error("Por favor, rellena todos los campos");
+    }
 
     let product = {
       name: inputs.name,
@@ -125,8 +125,9 @@ const ProductsForm = ({ isEditing }) => {
               onChange={(e) => handleInputChange("description", e.target.value)}
             />
             <Input
-              type="text"
+              type="number"
               placeholder="Precio"
+              min="0"
               value={inputs.price}
               onChange={(e) => handleInputChange("price", e.target.value)}
               name="price"
@@ -134,6 +135,7 @@ const ProductsForm = ({ isEditing }) => {
             />
             <Input
               type="number"
+              min="0"
               value={inputs.stock}
               onChange={(e) => handleInputChange("stock", e.target.value)}
               placeholder="Stock"

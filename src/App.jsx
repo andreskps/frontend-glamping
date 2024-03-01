@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
 import AdminLayout from "./layouts/AdminLayout";
@@ -9,7 +9,7 @@ import ProductsPage from "./pages/products/ProductsPage";
 import PropertiesPage from "./pages/properties/PropertiesPage";
 import PropertiesCreate from "./pages/properties/PropertiesCreate";
 import ProtectedRoutes from "./layouts/AdminLayout";
-import {Toaster} from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import PropertyEdit from "./pages/properties/PropertyEdit";
 import ProductsCreate from "./pages/products/ProductsCreate";
 import ProductsEdit from "./pages/products/ProductsEdit";
@@ -23,13 +23,10 @@ import MapView from "./components/map/MapView";
 import { useLocationStore } from "./store/locationStore";
 
 function App() {
-
   const setLocation = useLocationStore((state) => state.setLocation);
 
-
   useEffect(() => {
-
-    if(navigator.geolocation){
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setLocation({
           lat: position.coords.latitude,
@@ -37,7 +34,7 @@ function App() {
         });
       });
     }
-},[])
+  }, []);
 
   if (localStorage.getItem("theme") === "dark") {
     document.documentElement.classList.add("dark");
@@ -45,17 +42,9 @@ function App() {
     document.documentElement.classList.remove("dark");
   }
 
-  
-
-
   return (
-    
-
-
-
-
     <BrowserRouter>
-    <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route
           path="/"
@@ -67,30 +56,30 @@ function App() {
         />
         <Route path="login" element={<LoginPage />} />
 
-        <Route path="admin" element={<ProtectedRoutes requiredRoles={["owner"]} />}>
-       
+        <Route
+          path="admin"
+          element={<ProtectedRoutes requiredRoles={["owner"]} />}
+        >
           {/* Rutas propiedades*/}
           <Route index element={<DashboardPage />} />
           <Route path="propiedades" element={<PropertiesPage />} />
           <Route path="propiedades/crear" element={<PropertiesCreate />} />
-          <Route path="propiedades/editar/:id" element={<PropertyEdit/>} />
+          <Route path="propiedades/editar/:id" element={<PropertyEdit />} />
 
           {/*Rutas politicas*/}
           <Route path="politicas" element={<PoliticsPage />} />
           <Route path="politicas/crear" element={<PoliticCreate />} />
-          <Route path="politicas/editar/:id" element={<PoliticEdit/>} />
+          <Route path="politicas/editar/:id" element={<PoliticEdit />} />
 
-
-          {/* Rutas productos*/ }
+          {/* Rutas productos*/}
           <Route path="productos" element={<ProductsPage />} />
           <Route path="productos/crear" element={<ProductsCreate />} />
           <Route path="productos/editar/:id" element={<ProductsEdit />} />
 
-          {/* Rutas servicios*/ }
-          <Route path="servicios" element={<ServicesPage/>} />
-          <Route path="servicios/crear" element={<ServicesCreate/>} />
-          <Route path="servicios/editar/:id" element={<ServiceEdit/>} />
-          
+          {/* Rutas servicios*/}
+          <Route path="servicios" element={<ServicesPage />} />
+          <Route path="servicios/crear" element={<ServicesCreate />} />
+          <Route path="servicios/editar/:id" element={<ServiceEdit />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -59,6 +59,7 @@ const PropertyForm = ({ isEditing }) => {
 
   const categories = ["CABAÑA", "CHALET", "YURTA", "CASA_ARBOL", "DOMO"];
 
+
   const {
     isLoading,
     error,
@@ -85,7 +86,7 @@ const PropertyForm = ({ isEditing }) => {
   const [formState, setFormState] = useState({
     name: "",
     description: "",
-    capacity: 0,
+    capacity: "",
     politicId: "",
     prices: [{ description: "", price: "" }],
     daysAvailability: [],
@@ -212,40 +213,75 @@ const PropertyForm = ({ isEditing }) => {
           <div className="mt-2 space-y-3">
             <Input
               type="text"
-              placeholder="Nombre"
+              placeholder="Nombre de la propiedad"
               name="name"
+              label="Nombre"
               id="name"
               value={formState.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
             />
-            <textarea
-              className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-              placeholder="Descripción"
-              value={formState.description}
-              onChange={(e) => handleInputChange("description", e.target.value)}
-              name="description"
-              id="description"
-            />
 
-            <Select
-              placeholder="Selecciona una categoria"
-              options={categories.map((category) => ({
-                value: category,
-                label: category
-              }))}
-              value={
-                formState?.category
-                  ? {
-                      value: formState.category,
-                      label: formState.category,
-                    }
-                  : null
-              }
-              onChange={(selected) => {
-                setFormChanges({ ...formChanges, category: selected.value });
-                setFormState({ ...formState, category: selected.value });
-              }}
-            />
+            <div>
+              <label className="inline-block text-sm font-medium dark:text-white mb-1">
+                Descripción
+              </label>
+              <textarea
+                className="py-2 px-3 pe-11 block w-full border border-gray-600 shadow-sm text-sm rounded-lg focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                placeholder="Descripción"
+                label="Descripción"
+                value={formState.description}
+                onChange={(e) =>
+                  handleInputChange("description", e.target.value)
+                }
+                name="description"
+                id="description"
+              />
+            </div>
+
+            <div>
+              <label className="inline-block text-sm font-medium dark:text-white mb-1">
+                Categoría
+              </label>
+
+              <Select
+                placeholder="Selecciona una categoria"
+                options={categories.map((category) => ({
+                  value: category,
+                  label: category,
+                }))}
+                value={
+                  formState?.category
+                    ? {
+                        value: formState.category,
+                        label: formState.category,
+                      }
+                    : null
+                }
+                onChange={(selected) => {
+                  setFormChanges({ ...formChanges, category: selected.value });
+                  setFormState({ ...formState, category: selected.value });
+                }}
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    borderRadius: "10px",
+                    borderColor: "#9e9e9e",
+                    boxShadow: "none",
+                    "&:hover": {
+                      borderColor: "#9e9e9e",
+                    },
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: state.isSelected
+                      ? "#9e9e9e"
+                      : state.isFocused
+                      ? "#f1f1f1"
+                      : null,
+                  }),
+                }}
+              />
+            </div>
 
             <MapView
               handleLocation={handleLocationSelect}
@@ -265,11 +301,15 @@ const PropertyForm = ({ isEditing }) => {
               placeholder="Capacidad"
               name="capacity"
               id="capacity"
+              min="1"
+              label="Capacidad"
               value={formState.capacity}
               onChange={(e) => handleInputChange("capacity", e.target.value)}
             />
+           
 
-            <label className="inline-block text-sm font-medium dark:text-white">
+           <div>
+           <label className="inline-block text-sm font-medium dark:text-white">
               Seleccione una política
             </label>
 
@@ -293,6 +333,8 @@ const PropertyForm = ({ isEditing }) => {
                 setFormState({ ...formState, politicId: selected.value });
               }}
             />
+           </div>
+          
           </div>
 
           <div className="py-6 first:pt-0 last:pb-0 border-t first:border-transparent border-gray-200">
@@ -346,7 +388,11 @@ const PropertyForm = ({ isEditing }) => {
               ))}
               <button
                 type="button"
-                className="text-sm text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
+                className="text-sm text-gray-500
+                 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300
+                  focus:outline-none  rounded-md border border-gray-300 dark:border-gray-700 px-4 py-2 mt-2 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 ease-in-out
+                 "
+            
                 onClick={addPrice}
               >
                 Agregar tarifa

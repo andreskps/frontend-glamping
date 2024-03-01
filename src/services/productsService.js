@@ -28,7 +28,7 @@ export const getProduct = async (id) => {
 };
 
 export const createProduct = async (product) => {
-  console.log(product)
+
   try {
     const response = await clienteAxios.post("/products", product);
     return response.data;

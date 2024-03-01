@@ -66,6 +66,7 @@ const PropertiesTable = () => {
   if (error) return "An error has occurred: " + error.message;
 
   if (isSuccess) {
+  
     setProperties(data);
   }
 

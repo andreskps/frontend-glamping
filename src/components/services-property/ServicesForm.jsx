@@ -68,6 +68,18 @@ const ServicesForm = ({ isEditing }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const requiredFields = ["name", "description", "price"];
+
+    const missingFields = requiredFields.filter(
+      (field) => !inputs[field].trim()
+    );
+
+    if (missingFields.length) {
+      toast.error("Por favor completa todos los campos");
+      return;
+    }
+
+
     let service = {
       name: inputs.name,
       description: inputs.description,
@@ -118,6 +130,8 @@ const ServicesForm = ({ isEditing }) => {
             <Input
               label="Precio"
               name="price"
+              type="number"
+              min="0"
               placeholder="Precio del servicio"
               value={inputs.price}
               onChange={

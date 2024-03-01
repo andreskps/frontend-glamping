@@ -5,7 +5,6 @@ export const useAuthStore = create( persist((set, get) => ({
       token: "",
       profile: null,
       isAuth: false,
-
       setProfile: (profile) => set({ profile }),
       setToken: (token) => set({
         token,
