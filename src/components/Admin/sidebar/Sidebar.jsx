@@ -12,6 +12,8 @@ import { IoPeopleOutline } from "react-icons/io5";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 
 const Sidebar = () => {
+  const [openSidebar, setOpenSidebar] = useState(false);
+
   const links = [
     {
       name: "Inicio",
@@ -79,22 +81,30 @@ const Sidebar = () => {
 
   return (
     <>
-      <button
-        type="button"
-        className="text-gray-500 hover:text-gray-600"
-        data-hs-overlay="#docs-sidebar"
-        aria-controls="docs-sidebar"
-        aria-label="Toggle navigation"
-      >
-        <span className="sr-only">Toggle Navigation</span>
-        <AiOutlineBars className="w-6 h-6" />
-      </button>
+      <div className="fixed top-0 start-0 cursor-pointer z-[50] w-14 h-14 bg-white border-e border-gray-200 flex items-center justify-center lg:hidden">
+        <button
+          className="text-gray-500"
+          onClick={() => setOpenSidebar(!openSidebar)}
+        >
+          <AiOutlineBars />
+        </button>
+      </div>
 
       <div
-        id="docs-sidebar"
-        className="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700"
+        className={`
+       ${openSidebar ? "translate-x-0" : "-translate-x-full"}
+       transition-transform duration-200 ease-in-out
+       fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700 lg:block
+     `}
       >
-        <div className="px-6">
+
+        <button
+          className="absolute top-0 start-0 w-16 h-16 bg-white border-e border-gray-200 flex items-center justify-center lg:hidden"
+          onClick={() => setOpenSidebar(!openSidebar)}
+        >
+          <AiOutlineBars />
+        </button>
+        {/* <div className="px-6">
           <a
             className="flex-none text-xl font-semibold dark:text-white"
             href="#"
@@ -102,9 +112,9 @@ const Sidebar = () => {
           >
             Brand
           </a>
-        </div>
+        </div> */}
         <nav
-          className="hs-accordion-group p-6 w-full flex flex-col flex-wrap"
+          className="hs-accordion-group p-6 w-full flex mt-4 flex-col flex-wrap"
           data-hs-accordion-always-open
         >
           <ul className="space-y-1.5">

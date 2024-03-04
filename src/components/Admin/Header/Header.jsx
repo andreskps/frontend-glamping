@@ -34,7 +34,7 @@ const Header = () => {
           className="flex basis-full items-center w-full mx-auto px-4 sm:px-6 md:px-8"
           aria-label="Global"
         >
-          <div className="me-5 lg:me-0 lg:hidden">
+          {/* <div className="me-5 lg:me-0 lg:hidden">
             <a
               className="flex-none text-xl font-semibold dark:text-white"
               href="#"
@@ -42,7 +42,7 @@ const Header = () => {
             >
               Brand
             </a>
-          </div>
+          </div> */}
 
           <div className="w-full flex items-center justify-end ms-auto sm:justify-between sm:gap-x-3 sm:order-3">
             <div className="sm:hidden">
