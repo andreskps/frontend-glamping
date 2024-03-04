@@ -137,8 +137,6 @@ const PropertyForm = ({ isEditing }) => {
   const handleImageUpload = async (files) => {
     if (!files.length) return;
 
-    setPropertyImages([...propertyImages, ...files]);
-
     if (!isEditing) return; // Si no está editando, no subir las imágenes hasta que le den crear
 
     const formData = new FormData();
@@ -201,7 +199,7 @@ const PropertyForm = ({ isEditing }) => {
         })
       : mutation.mutate({
           ...formState,
-          files: propertyImages,
+      
         });
   };
 
@@ -439,7 +437,7 @@ const PropertyForm = ({ isEditing }) => {
               Imágenes
             </label>
             <div className="mt-2 space-y-3">
-              <MultipleImageUpload onUpload={handleImageUpload} />
+              <MultipleImageUpload onUpload={handleImageUpload} formState={formState} setFormState={setFormState} isEditing={isEditing}/>
             </div>
           </div>
 

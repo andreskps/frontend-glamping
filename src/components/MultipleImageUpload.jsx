@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import "react-dropzone-uploader/dist/styles.css";
 
-const MultipleImageUpload = ({ onUpload }) => {
+const MultipleImageUpload = ({ onUpload,formState,setFormState,isEditing }) => {
   const [files, setFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -23,6 +23,11 @@ const MultipleImageUpload = ({ onUpload }) => {
     useDropzone({
       accept: "image/*",
       onDrop: (acceptedFiles) => {
+  
+        setFormState({
+          ...formState,
+          files: acceptedFiles
+        })
         setFiles(acceptedFiles);
       },
     });
@@ -40,13 +45,8 @@ const MultipleImageUpload = ({ onUpload }) => {
           Arrastra y suelta las imágenes aquí, o haz clic para seleccionarlas.
         </p>
       </div>
-      {/* <button
-        type="button"
-        onClick={open}
-        className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors duration-200"
-      >
-        Seleccionar imágenes
-      </button> */}
+
+
       <div>
         <h3 className="text-lg font-semibold mb-2">Imágenes seleccionadas:</h3>
         <div className="grid grid-cols-3 gap-4">
@@ -67,16 +67,22 @@ const MultipleImageUpload = ({ onUpload }) => {
           ))}
         </div>
       </div>
-      <button
-        type="button"
-        disabled={files.length === 0 || isUploading}
-        onClick={handleUpload}
-        className={`bg-blue-500 text-white py-2 px-4 disabled:opacity-50 disabled:cursor-no-drop rounded-md hover:bg-blue-600 transition-colors duration-200 ${
-          isUploading ? "opacity-50" : ""
-        }`}
-      >
-        Subir Imagenes
-      </button>
+
+      {
+        isEditing && (
+          <button
+          type="button"
+          disabled={files.length === 0 || isUploading}
+          onClick={handleUpload}
+          className={`bg-blue-500 text-white py-2 px-4 disabled:opacity-50 disabled:cursor-no-drop rounded-md hover:bg-blue-600 transition-colors duration-200 ${
+            isUploading ? "opacity-50" : ""
+          }`}
+        >
+          {isUploading ? "Subiendo..." : "Subir nuevas imágenes"}
+        </button>
+        )
+      }
+     
     </div>
   );
 };
