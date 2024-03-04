@@ -149,7 +149,7 @@ const ServicesForm = ({ isEditing }) => {
             </button>
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+              className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
             >
               {isEditing ? "Actualizar" : "Crear"}
             </button>

@@ -74,7 +74,7 @@ const MultipleImageUpload = ({ onUpload,formState,setFormState,isEditing }) => {
           type="button"
           disabled={files.length === 0 || isUploading}
           onClick={handleUpload}
-          className={`bg-blue-500 text-white py-2 px-4 disabled:opacity-50 disabled:cursor-no-drop rounded-md hover:bg-blue-600 transition-colors duration-200 ${
+          className={`bg-green-600 text-white py-2 px-4 disabled:opacity-50 disabled:cursor-no-drop rounded-md hover:bg-green-700 transition-colors duration-200 ${
             isUploading ? "opacity-50" : ""
           }`}
         >

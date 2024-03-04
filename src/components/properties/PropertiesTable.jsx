@@ -59,11 +59,9 @@ const PropertiesTable = () => {
     mutuation.mutate(id);
   };
 
-  if (isLoading) return <SpinnerCircle/>
+  if (isLoading) return <SpinnerCircle />;
 
   if (error) return "An error has occurred: " + error.message;
-
-
 
   return (
     // <SimpleTable
@@ -82,7 +80,7 @@ const PropertiesTable = () => {
 
         <div class="inline-flex gap-x-2">
           <Link
-            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
             to="crear"
           >
             <IoIosAdd className="flex-shrink-0 w-6 h-6" />

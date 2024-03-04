@@ -471,9 +471,9 @@ const PropertyForm = ({ isEditing }) => {
               ))}
               <button
                 type="button"
-                className="text-sm text-gray-500
-                 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300
-                  focus:outline-none  rounded-md border border-gray-300 dark:border-gray-700 px-4 py-2 mt-2 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 ease-in-out
+                className="text-sm text-white
+            
+                  focus:outline-none  rounded-md border border-gray-300 dark:border-gray-700 px-4 py-2 mt-2 bg-green-600 dark:bg-slate-800 hover:bg-green-700 dark:hover:bg-gray-700 transition-colors duration-200 ease-in-out
                  "
                 onClick={addPrice}
               >
@@ -530,7 +530,7 @@ const PropertyForm = ({ isEditing }) => {
             </Button>
             <Button
               type="submit"
-              className="bg-blue-500 text-white hover:bg-blue-600"
+              className="bg-green-600 text-white hover:bg-green-700 dark:bg-slate-800 dark:hover:bg-gray-700"
             >
               {isEditing ? "Actualizar" : "Crear"}
             </Button>
