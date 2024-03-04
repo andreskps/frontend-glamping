@@ -97,7 +97,7 @@ const PropertyForm = ({ isEditing }) => {
     description: "",
     capacity: "",
     politicId: "",
-    prices: [{ description: "", price: "" }],
+    prices: [],
     daysAvailability: [],
     files: [],
     location: {
@@ -172,6 +172,24 @@ const PropertyForm = ({ isEditing }) => {
     });
   };
 
+  const validateForm = (formState, fieldsRequired) => {
+    const errors = {};
+  
+    fieldsRequired.forEach((field) => {
+      if (!formState[field] || formState[field].length === 0) {
+        errors[field] = `El campo ${field} es requerido`;
+      }
+  
+      // Agrega aquí más validaciones según sea necesario
+      // Por ejemplo, si quieres validar que la capacidad sea un número:
+      // if (field === 'capacity' && typeof formState[field] !== 'number') {
+      //   errors[field] = `La capacidad debe ser un número`;
+      // }
+    });
+  
+    return errors;
+  };
+
   const handleDeleteImage = async (id) => {
     try {
       if (formState?.images?.length === 1) {
@@ -190,8 +208,34 @@ const PropertyForm = ({ isEditing }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
+
+
+    if (formState?.files?.length === 0 && !isEditing) {
+      toast.error("Debes subir al menos una imagen");
+      return;
+    }
+
+    const fieldsRequired = [
+      "name",
+      "description",
+      "capacity",
+      "politicId",
+      "category", 
+      "location",
+      "prices",
+      "daysAvailability",
+      "files"
+    ];
+
+    const errors = validateForm(formState, fieldsRequired);
+
+    if (Object.keys(errors).length > 0) {
+      toast.error("Debes completar todos los campos");
+      return;
+    }
+
 
     isEditing
       ? mutation.mutate({
@@ -202,6 +246,32 @@ const PropertyForm = ({ isEditing }) => {
       
         });
   };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    const fieldsRequired = [
+      "name",
+      "description",
+      "capacity",
+      "politicId",
+      "category", 
+      "location",
+      "prices",
+      "daysAvailability",
+    ];
+
+    const errors = validateForm(formState, fieldsRequired);
+
+    if (Object.keys(errors).length > 0) {
+      toast.error("Debes completar todos los campos");
+      return;
+    }
+
+    mutation.mutate({
+      ...formChanges,
+    });
+  }
 
   if (isLoading || logadingPolitics) return <SpinnerCircle />;
 
@@ -217,13 +287,16 @@ const PropertyForm = ({ isEditing }) => {
             {isEditing ? "Editar" : "Crear"} propiedad
           </h2>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={
+          isEditing ? handleUpdate : handleCreate
+        }>
           <div className="mt-2 space-y-3">
             <Input
               type="text"
               placeholder="Nombre de la propiedad"
               name="name"
               label="Nombre"
+              required
               id="name"
               value={formState.name}
               onChange={(e) => handleInputChange("name", e.target.value)}
@@ -309,6 +382,7 @@ const PropertyForm = ({ isEditing }) => {
               placeholder="Capacidad"
               name="capacity"
               id="capacity"
+              required
               min="1"
               label="Capacidad"
               value={formState.capacity}
@@ -376,6 +450,7 @@ const PropertyForm = ({ isEditing }) => {
                   <Input
                     type="text"
                     placeholder="Descripción"
+                    required
                     value={price.description}
                     name="description"
                     onChange={(e) =>
@@ -385,6 +460,7 @@ const PropertyForm = ({ isEditing }) => {
                   <Input
                     type="number"
                     placeholder="Precio"
+                    required
                     name="price"
                     value={price.price}
                     onChange={(e) =>
