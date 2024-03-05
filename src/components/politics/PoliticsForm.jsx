@@ -88,6 +88,8 @@ const PoliticsForm = ({ isEditing }) => {
       },
     };
 
+
+
     if (isEditing) politic.id = +id;
 
     mutation.mutate({
@@ -112,6 +114,7 @@ const PoliticsForm = ({ isEditing }) => {
               type="text"
               placeholder="Nombre"
               name="name"
+              required
               id="name"
               value={inputs.name}
               onChange={(e) => handleInputChange(e.target.name, e.target.value)}
@@ -120,6 +123,7 @@ const PoliticsForm = ({ isEditing }) => {
               placeholder="Descripción"
               name="description"
               id="description"
+              required
               type="text"
               value={inputs.description}
               onChange={(e) => handleInputChange(e.target.name, e.target.value)}
@@ -131,20 +135,13 @@ const PoliticsForm = ({ isEditing }) => {
             </h3>
 
             <div className="mt-2 space-y-3">
-              <Input
-                type="checkbox"
-                name="cancellation"
-                id="cancellation"
-                checked={inputs.cancellation}
-                onChange={(e) =>
-                  handleInputChange(e.target.name, e.target.checked)
-                }
-              />
+    
               <Input
                 type="number"
                 placeholder="Días de anticipación"
                 name="days_prevents"
                 value={inputs.days_prevents}
+                required
                 id="days_prevents"
                 onChange={(e) =>
                   handleInputChange(e.target.name, e.target.value)
@@ -156,6 +153,7 @@ const PoliticsForm = ({ isEditing }) => {
                 placeholder="Penalidad"
                 value={inputs.penalty}
                 name="penalty"
+                required
                 id="penalty"
                 onChange={(e) =>
                   handleInputChange(e.target.name, e.target.value)
@@ -165,6 +163,8 @@ const PoliticsForm = ({ isEditing }) => {
               <Input
                 type="time"
                 placeholder="Hora de entrada"
+                label="Hora de entrada"
+                required
                 value={inputs.check_in}
                 name="check_in"
                 id="check_in"
@@ -176,6 +176,8 @@ const PoliticsForm = ({ isEditing }) => {
               <Input
                 type="time"
                 placeholder="Hora de salida"
+                label="Hora de salida"
+                required
                 name="check_out"
                 value={inputs.check_out}
                 id="check_out"
@@ -187,12 +189,22 @@ const PoliticsForm = ({ isEditing }) => {
           </div>
 
           <div className="mt-5 flex justify-end gap-x-2">
+
+          <button
+              type="button"
+              className="py-2 px-4 rounded-md border border-gray-300 text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
+              onClick={() => navigate("/admin/politicas")}
+            >
+              Cancelar
+            </button>
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+              className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
             >
               {isEditing ? "Actualizar" : "Crear"}
             </button>
+
+        
           </div>
         </form>
       </div>

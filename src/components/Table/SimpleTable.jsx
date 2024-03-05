@@ -11,6 +11,9 @@ import { CiSearch } from "react-icons/ci";
 import { IoIosAdd } from "react-icons/io";
 import { VscEllipsis } from "react-icons/vsc";
 import { Link } from "react-router-dom";
+import { MdNavigateNext,MdNavigateBefore } from "react-icons/md";
+import { SlOptions } from "react-icons/sl";
+
 import ConfirmModal from "../ui/ConfirmModal";
 
 const SimpleTable = ({ columns, data, handleEdit, handleDelete }) => {
@@ -167,35 +170,35 @@ const SimpleTable = ({ columns, data, handleEdit, handleDelete }) => {
                     ))}
 
                     <td class="h-px w-px whitespace-nowrap">
-                      <div class="dropdown ">
-                        <label className="hover:cursor-pointer" tabindex="0">
-                          <VscEllipsis className="w-4 h-4" />
-                        </label>
-                        <div class="dropdown-menu">
-                          <div class="dropdown-content">
-                            <button
-                              class="dropdown-item"
-                              tabindex="0"
-                              onClick={() => {
-                                handleEdit(row.original.id);
-                              }}
-                            >
-                              Editar
-                            </button>
-                            <button
-                              class="dropdown-item"
-                              htmlFor="modal-2"
-                              tabindex="0"
-                              onClick={() => {
-                                setIsOpen(true);
-                                setId(row.original.id);
-                              }}
-                            >
-                              Eliminar
-                            </button>
-                          </div>
+                    
+                       <div className="px-6 py-1.5">
+                    <div className="hs-dropdown relative inline-block [--placement:bottom-right]">
+                      <button id="hs-table-dropdown-1" type="button" className="hs-dropdown-toggle py-1.5 px-2 inline-flex justify-center items-center gap-2 rounded-lg text-gray-700 align-middle disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
+                        <SlOptions className="w-5 h-5" />
+                      </button>
+                      <div className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden divide-y divide-gray-200 min-w-40 z-10 bg-white shadow-2xl rounded-lg p-2 mt-2 dark:divide-gray-700 dark:bg-gray-800 dark:border dark:border-gray-700" aria-labelledby="hs-table-dropdown-1">
+                        <div className="py-2 first:pt-0 last:pb-0">
+                          <button 
+                            onClick={() => {
+                              handleEdit(row.original.id);
+                            }}
+                          className="flex items-center gap-x-3 py-2  w-full px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+                            Editar
+                          </button>
+                        </div>
+                        <div className="py-2 first:pt-0 last:pb-0">
+                          <button
+                            onClick={() => {
+                              setIsOpen(true);
+                              setId(row.original.id);
+                            }}
+                           className="flex items-center gap-x-3 py-2 w-full px-3 rounded-lg text-sm text-red-600 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-red-500 dark:hover:bg-gray-700" href="#">
+                            Eliminar
+                          </button>
                         </div>
                       </div>
+                    </div>
+                  </div>
                     </td>
                   </tr>
                 ))}
@@ -215,20 +218,7 @@ const SimpleTable = ({ columns, data, handleEdit, handleDelete }) => {
                       setCurrentPage(currentPage - 1);
                     }}
                   >
-                    <svg
-                      className="flex-shrink-0 w-4 h-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="m15 18-6-6 6-6" />
-                    </svg>
+                    <MdNavigateBefore className="flex-shrink-0 w-4 h-4" />
                     Anterior
                   </button>
 
@@ -244,20 +234,7 @@ const SimpleTable = ({ columns, data, handleEdit, handleDelete }) => {
                     }}
                   >
                     Siguiente
-                    <svg
-                      className="flex-shrink-0 w-4 h-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="m9 18 6-6-6-6" />
-                    </svg>
+                    <MdNavigateNext className="flex-shrink-0 w-4 h-4" />
                   </button>
                 </div>
               </div>
