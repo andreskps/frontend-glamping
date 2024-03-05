@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route,useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -19,14 +19,18 @@ import PoliticCreate from "./pages/politics/PoliticCreate";
 import PoliticEdit from "./pages/politics/PoliticEdit";
 import MapView from "./components/map/MapView";
 import { useLocationStore } from "./store/locationStore";
+import { Preline } from "./Preline";
+
+
 
 
 
 function App() {
   const setLocation = useLocationStore((state) => state.setLocation);
-
+ 
 
   useEffect(() => {
+  
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setLocation({
@@ -45,6 +49,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    <Preline/>
       <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route
