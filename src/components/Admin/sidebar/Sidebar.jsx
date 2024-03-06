@@ -17,11 +17,13 @@ const SidebarApp = () => {
     {
       name: "Inicio",
       icon: <RxDashboard />,
+      link: "/admin",
       subLinks: [],
     },
     {
       name: "Reservas",
       icon: <FaPeopleRoof />,
+      link: "/admin/reservas",
       subLinks: [],
     },
     {
@@ -55,6 +57,7 @@ const SidebarApp = () => {
     {
       name: "Reportes",
       icon: <HiOutlineDocumentReport />,
+      link: "/admin/reportes",
       subLinks: [],
     },
   ];
@@ -113,7 +116,7 @@ const SidebarApp = () => {
                 </li>
               ) : (
                 <li key={index}>
-                  <SimpleLink name={link.name} icon={link.icon} />
+                  <SimpleLink name={link.name} icon={link.icon} link={link.link} />
                 </li>
               )
             )}

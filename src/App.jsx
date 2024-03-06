@@ -20,6 +20,7 @@ import PoliticEdit from "./pages/politics/PoliticEdit";
 import MapView from "./components/map/MapView";
 import { useLocationStore } from "./store/locationStore";
 import { Preline } from "./Preline";
+import { ReservationPage } from "./pages/reservations/ReservationPage";
 
 
 
@@ -86,6 +87,9 @@ function App() {
           <Route path="servicios" element={<ServicesPage />} />
           <Route path="servicios/crear" element={<ServicesCreate />} />
           <Route path="servicios/editar/:id" element={<ServiceEdit />} />
+
+          {/*reservations*/}
+          <Route path="reservas" element={<ReservationPage/>} />
         </Route>
       </Routes>
     </BrowserRouter>
