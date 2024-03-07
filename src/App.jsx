@@ -21,6 +21,7 @@ import MapView from "./components/map/MapView";
 import { useLocationStore } from "./store/locationStore";
 import { Preline } from "./Preline";
 import { ReservationPage } from "./pages/reservations/ReservationPage";
+import { ReservationDetailsPage } from "./pages/reservations/ReservationDetailsPage";
 
 
 
@@ -90,6 +91,12 @@ function App() {
 
           {/*reservations*/}
           <Route path="reservas" element={<ReservationPage/>} />
+
+          <Route path="reserva/detalles/:id" element={<ReservationDetailsPage/>} />
+
+
+
+          <Route path="*" element={<h1>Not Found</h1>} />
         </Route>
       </Routes>
     </BrowserRouter>
