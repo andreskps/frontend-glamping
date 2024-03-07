@@ -9,3 +9,14 @@ export const getReservations = async () => {
         throw error;
     }
 };
+
+export const getReservationById = async (id) => {
+    try {
+        const response = await clienteAxios.get(`/reservations/${id}`);
+        console.log(response)
+        return response.data;
+    } catch (error) {
+        console.log(error)
+        throw error;
+    }
+};

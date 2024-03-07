@@ -1,52 +1,19 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getReservationById } from "../../services/reservationsService";
 export const ReservationDetailsPage = () => {
   const { id } = useParams();
 
-  const data = {
-    id: "1be997fe-8f23-4c6c-9b84-a887bf92de3f",
-    totalPrice: 138000,
-    startDate: "2024-03-01",
-    endDate: "2024-03-05",
-    state: "FINISHED",
-    code: "TFWQPN",
-    property: {
-      id: "989818db-8687-478c-9215-0c40812e243d",
-      name: "Glamping La Yurany",
-      location: {
-        displayName: "Villa de Leyva, Boyacá, Colombia",
-      },
-    },
-    guest: {
-      name: "vale",
-      email: "vale@gmail.com",
-    },
-    reservationProducts: [
-      {
-        id: 37,
-        quantity: 2,
-        product: {
-          name: "Pollo",
-        },
-      },
-      {
-        id: 36,
-        quantity: 1,
-        product: {
-          name: "Cerveza",
-        },
-      },
-    ],
-    reservationServices: [
-      {
-        id: 19,
-        servicesProperty: {
-          name: "Cabalgata",
-        },
-      },
-    ],
-  };
+  const { isLoading, error, data } = useQuery({
+    queryKey: ["reservation", id],
+    queryFn: () => getReservationById(id),
+  });
+
+  if (isLoading) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
+
 
   return (
     <div className="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10">
@@ -157,50 +124,58 @@ export const ReservationDetailsPage = () => {
               <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200">
                 Productos
               </h2>
-              {data.reservationProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="p-4 bg-white  rounded-lg flex justify-between items-center mb-4"
-                >
-                  <div>
-                    <h5 className="text-sm font-medium text-gray-500 uppercase">
-                      Producto
-                    </h5>
-                    <p className="font-medium text-gray-800 dark:text-gray-200">
-                      {product.product.name}
-                    </p>
+              {data.reservationProducts.length === 0 ? (
+                <p className="text-gray-500">No hay productos en la reserva</p>
+              ) : (
+                data.reservationProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    className="p-4 bg-white  rounded-lg flex justify-between items-center mb-4"
+                  >
+                    <div>
+                      <h5 className="text-sm font-medium text-gray-500 uppercase">
+                        Producto
+                      </h5>
+                      <p className="font-medium text-gray-800 dark:text-gray-200">
+                        {product.product.name}
+                      </p>
+                    </div>
+                    <div>
+                      <h5 className="text-sm font-medium text-gray-500 uppercase">
+                        Cantidad
+                      </h5>
+                      <p className="text-gray-800 dark:text-gray-200">
+                        {product.quantity}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h5 className="text-sm font-medium text-gray-500 uppercase">
-                      Cantidad
-                    </h5>
-                    <p className="text-gray-800 dark:text-gray-200">
-                      {product.quantity}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
 
             <div className="border border-gray-200 mt-2 p-4 rounded-lg space-y-4 dark:border-gray-700">
               <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200">
                 Servicios
               </h2>
-              {data.reservationServices.map((service) => (
-                <div
-                  key={service.id}
-                  className="p-4 bg-white  rounded-lg flex justify-between items-center mb-4"
-                >
-                  <div>
-                    <h5 className="text-sm font-medium text-gray-500 uppercase">
-                      Servicio
-                    </h5>
-                    <p className="font-medium text-gray-800 dark:text-gray-200">
-                      {service.servicesProperty.name}
-                    </p>
+              {data.reservationServices.length === 0 ? (
+                <p className="text-gray-500">No hay servicios en la reserva</p>
+              ) : (
+                data.reservationServices.map((service) => (
+                  <div
+                    key={service.id}
+                    className="p-4 bg-white  rounded-lg flex justify-between items-center mb-4"
+                  >
+                    <div>
+                      <h5 className="text-sm font-medium text-gray-500 uppercase">
+                        Servicio
+                      </h5>
+                      <p className="font-medium text-gray-800 dark:text-gray-200">
+                        {service.servicesProperty.name}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
 
