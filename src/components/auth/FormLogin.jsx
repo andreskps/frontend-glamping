@@ -16,6 +16,8 @@ const FormLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+
+
     try {
       const token = await login({
         email,
@@ -32,7 +34,7 @@ const FormLogin = () => {
       navigate("/admin");
     } catch (error) {
 
-      setError(error.response.data.message);
+      setError("Credenciales incorrectas");
     }
   };
 
