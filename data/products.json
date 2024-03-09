@@ -1,0 +1,171 @@
+[
+    {
+        "id": "1",
+        "name": "computer",
+        "price": "1000",
+        "description": "this is a computer",
+        "status": "available"
+    },{
+        "id": "2",
+        "name": "laptop",
+        "price": "2000",
+        "description": "this is a laptop",
+        "status": "available"
+    },{
+        "id": "3",
+        "name": "mobile",
+        "price": "3000",
+        "description": "this is a mobile",
+        "status": "available"
+    },{
+        "id": "4",
+        "name": "tablet",
+        "price": "4000",
+        "description": "this is a tablet",
+        "status": "available"
+    },{
+        "id": "5",
+        "name": "ipad",
+        "price": "5000",
+        "description": "this is a ipad",
+        "status": "inavailable"
+    },{
+        "id": "6",
+        "name": "iphone",
+        "price": "6000",
+        "description": "this is a iphone",
+        "status": "available"
+    },{
+        "id": "7",
+        "name": "ipod",
+        "price": "7000",
+        "description": "this is a ipod",
+        "status": "available"
+    },{
+        "id": "8",
+        "name": "imac",
+        "price": "8000",
+        "description": "this is a imac",
+        "status": "available"
+    },{
+        "id": "9",
+        "name": "macbook",
+        "price": "9000",
+        "description": "this is a macbook",
+        "status": "available"
+    },{
+        "id": "10",
+        "name": "macbook air",
+        "price": "10000",
+        "description": "this is a macbook air",
+        "status": "available"
+    },{
+        "id": "11",
+        "name": "macbook pro",
+        "price": "11000",
+        "description": "this is a macbook pro",
+        "status": "available"
+    },{
+        "id": "12",
+        "name": "mac mini",
+        "price": "12000",
+        "description": "this is a mac mini",
+        "status": "available"
+    },{
+        "id": "13",
+        "name": "mac pro",
+        "price": "13000",
+        "description": "this is a mac pro",
+        "status": "available"
+    },{
+        "id": "14",
+        "name": "mac server",
+        "price": "14000",
+        "description": "this is a mac server",
+        "status": "available"
+    },{
+        "id": "15",
+        "name": "mac os",
+        "price": "15000",
+        "description": "this is a mac os",
+        "status": "available"
+    },{
+        "id": "16",
+        "name": "mac os x",
+        "price": "16000",
+        "description": "this is a mac os x",
+        "status": "available"
+    },{
+        "id": "17",
+        "name": "mac os x server",
+        "price": "17000",
+        "description": "this is a mac os x server",
+        "status": "available"
+    },{
+        "id": "18",
+        "name": "mac os x lion",
+        "price": "18000",
+        "description": "this is a mac os x lion",
+        "status": "available"
+    },{
+        "id": "19",
+        "name": "mac os x mountain lion",
+        "price": "19000",
+        "description": "this is a mac os x mountain lion",
+        "status": "available"
+    },{
+        "id": "20",
+        "name": "mac os x mavericks",
+        "price": "20000",
+        "description": "this is a mac os x mavericks",
+        "status": "available"
+    },{
+        "id": "21",
+        "name": "mac os x yosemite",
+        "price": "21000",
+        "description": "this is a mac os x yosemite",
+        "status": "available"
+    },{
+        "id": "22",
+        "name": "mac os x el capitan",
+        "price": "22000",
+        "description": "this is a mac os x el capitan",
+        "status": "available"
+    },{
+        "id": "23",
+        "name": "mac os x sierra",
+        "price": "23000",
+        "description": "this is a mac os x sierra",
+        "status": "available"
+    },{
+        "id": "24",
+        "name": "mac os x high sierra",
+        "price": "24000",
+        "description": "this is a mac os x high sierra",
+        "status": "available"
+    },{
+        "id": "25",
+        "name": "mac os x mojave",
+        "price": "25000",
+        "description": "this is a mac os x mojave",
+        "status": "available"
+    },{
+        "id": "26",
+        "name": "mac os x catalina",
+        "price": "26000",
+        "description": "this is a mac os x catalina",
+        "status": "available"
+    },{
+        "id": "27",
+        "name": "mac os x big sur",
+        "price": "27000",
+        "description": "this is a mac os x big sur",
+        "status": "available"
+    },{
+        "id": "28",
+        "name": "mac os x monterey",
+        "price": "28000",
+        "description": "this is a mac os x monterey",
+        "status": "available"
+    }
+]
