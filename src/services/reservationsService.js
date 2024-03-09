@@ -6,6 +6,7 @@ export const getReservations = async () => {
         const response = await clienteAxios.get("/reservations/byOwner");
         return response.data;
     } catch (error) {
+    
         throw error;
     }
 };

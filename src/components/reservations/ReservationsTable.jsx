@@ -16,11 +16,6 @@ export const ReservationsTable = () => {
 const colums = [
 
     {
-        header: "Code",
-        accessorKey: "code",
-        footer: "Code",
-    },
-    {
         header: "Start Date",
         accessorKey: "startDate",
         footer: "Start Date",

@@ -59,7 +59,7 @@ export const ReservationDetailsPage = () => {
               <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 dark:text-gray-200">
                 Reserva
               </h2>
-              <span className="mt-1 block text-gray-500">{data.code}</span>
+             
             </div>
           </div>
 

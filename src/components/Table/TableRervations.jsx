@@ -69,7 +69,7 @@ const TableReservation = ({ columns, data }) => {
                 </div>
               </div>
 
-              <div className="sm:col-span-2 md:grow">
+              {/* <div className="sm:col-span-2 md:grow">
                 <div className="flex justify-end gap-x-2">
                   <div className="hs-dropdown relative inline-block [--placement:bottom-right]">
                     <Link
@@ -81,7 +81,7 @@ const TableReservation = ({ columns, data }) => {
                     </Link>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead className="bg-gray-50 dark:bg-slate-800">
