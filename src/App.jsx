@@ -56,13 +56,9 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={
-            <div>
-              <MapView />
-            </div>
-          }
+           element={<LoginPage />}
         />
-        <Route path="login" element={<LoginPage />} />
+        {/* <Route path="login" element={<LoginPage />} /> */}
 
         <Route
           path="admin"
