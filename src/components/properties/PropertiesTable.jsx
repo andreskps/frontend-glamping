@@ -32,24 +32,6 @@ const PropertiesTable = () => {
     queryFn: getPropertiesByOwner,
   });
 
-  const colums = [
-    {
-      header: "ID",
-      accessorKey: "id",
-    },
-    {
-      header: "Nombre",
-      accessorKey: "name",
-    },
-    {
-      header: "Ubicación",
-      accessorKey: "location",
-    },
-    {
-      header: "Estado",
-      accessorKey: "state",
-    },
-  ];
 
   const handleEdit = (id) => {
     navigate(`/admin/propiedades/editar/${id}`);
@@ -64,12 +46,6 @@ const PropertiesTable = () => {
   if (error) return "An error has occurred: " + error.message;
 
   return (
-    // <SimpleTable
-    //   data={data}
-    //   columns={colums}
-    //   handleEdit={handleEdit}
-    //   handleDelete={handleDelete}
-    // />
     <>
       <div class="mb-5 pb-5 flex justify-between items-center border-b border-gray-200 dark:border-gray-700">
         <div>
