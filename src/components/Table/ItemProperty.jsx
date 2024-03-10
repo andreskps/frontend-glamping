@@ -1,16 +1,14 @@
 import { useState } from "react";
 import { Modal } from "flowbite-react";
-import { Link } from "react-router-dom";
 
 export const ItemProperty = ({ item, handleEdit, handleDelete }) => {
   const [openModal, setOpenModal] = useState(false);
   return (
     <>
-    <Link to={`editar/${item.id}`}>
       <div className="group flex flex-col h-full bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
         {/* <div className="h-52 flex flex-col justify-center items-center rounded-t-xl"> */}
           <img
-            src={item.images[0].url}
+            src={item.images[0].url || "https://res.cloudinary.com/dftvxcvfw/image/upload/v1709916381/properties/pcht9mjp2zrkbpd9b4gl.jpg"}
             alt="propiedad"
             className="w-full h-52 object-cover rounded-t-xl" 
           />
@@ -53,7 +51,6 @@ export const ItemProperty = ({ item, handleEdit, handleDelete }) => {
           </button>
         </div>
       </div>
-      </Link>
 
       <Modal
         className="dark:bg-slate-900"
