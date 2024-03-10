@@ -14,7 +14,7 @@ const houseIcon = new Icon({
 
 const MapView = ({handleLocation,currentLocation}) => {
   const getLocation = useLocationStore((state) => state.location);
-  const defaultCenter = [getLocation.lat , getLocation.lon];
+  const defaultCenter = [getLocation.lat ||  6.217 , getLocation.lon ||-75.567];
   const [location, setLocation] = useState([
      currentLocation ? currentLocation.lat : defaultCenter[0],
      currentLocation ? currentLocation.lon : defaultCenter[1]
