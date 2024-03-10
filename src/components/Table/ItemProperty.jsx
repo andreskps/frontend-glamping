@@ -9,9 +9,8 @@ export const ItemProperty = ({ item, handleEdit, handleDelete }) => {
         {/* <div className="h-52 flex flex-col justify-center items-center rounded-t-xl"> */}
           <img
             src={item.images[0].url}
-            alt={item.name}
-            className="w-full h-52 object-cover rounded-t-xl 
-            " 
+            alt="propiedad"
+            className="w-full h-52 object-cover rounded-t-xl" 
           />
         {/* </div> */}
         <div className="p-4 md:p-6">
