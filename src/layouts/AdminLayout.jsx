@@ -20,7 +20,7 @@ const ProtectedRoutes = ({ requiredRoles }) => {
   const { isAuth, hasRequiredRole } = useAuthorization(requiredRoles);
 
   if (!isAuth || !hasRequiredRole) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   return (

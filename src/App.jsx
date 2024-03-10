@@ -51,7 +51,7 @@ function App() {
 
   return (
     <BrowserRouter>
-    {/* <Preline/> */}
+      <Preline/>
       <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route
