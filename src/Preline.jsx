@@ -8,6 +8,7 @@ export const Preline = () => {
     import("preline/preline").then((module) => {
       module.HSAccordion.autoInit();
       module.HSCollapse.autoInit();
+      module.HSOverlay.autoInit();
 
 
     });
