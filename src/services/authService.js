@@ -21,4 +21,11 @@ export const profile = async () => {
   }
 };
 
-
+export const RegisterOwner = async (data) => {
+  try {
+    const response = await clienteAxios.post("/owners", data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}

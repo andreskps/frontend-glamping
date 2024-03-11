@@ -6,7 +6,7 @@ export const getPolitics = async () => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+  
     throw error;
   }
 };
@@ -25,7 +25,7 @@ export const createPolitic = async (politic) => {
     const response = await clienteAxios.post("/politics", politic);
     return response.data;
   } catch (error) {
-    console.log(error);
+
     throw error;
   }
 };
@@ -36,7 +36,7 @@ export const updatePolitic = async (politic) => {
     const response = await clienteAxios.put(`/politics/${id}`, data);
     return response.data;
   } catch (error) {
-    console.log(error);
+   
     throw error;
   }
 };

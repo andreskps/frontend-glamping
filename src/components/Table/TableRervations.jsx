@@ -33,9 +33,7 @@ const TableReservation = ({ columns, data }) => {
     onGlobalFilterChange: setFiltering,
   });
 
-  const handleStateChange = (value, row) => {
-    console.log(value, row);
-  };
+
 
   let classNameState =
     "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium";

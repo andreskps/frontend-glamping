@@ -149,7 +149,7 @@ const PropertyForm = ({ isEditing }) => {
       queryClient.invalidateQueries("property", id);
       toast.success("Imágenes subidas correctamente");
     } catch (error) {
-      console.log(error);
+      toast.error("Hubo un error al subir las imágenes");
     }
   };
 

@@ -33,7 +33,7 @@ export const createProduct = async (product) => {
     const response = await clienteAxios.post("/products", product);
     return response.data;
   } catch (error) {
-    console.log(error);
+
     throw error;
   }
 };
@@ -44,7 +44,7 @@ export const updateProduct = async (product) => {
     const response = await clienteAxios.put(`/products/${id}`, data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    
     throw error;
   }
 };

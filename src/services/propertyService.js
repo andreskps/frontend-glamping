@@ -35,7 +35,7 @@ export const getProperty = async (id) => {
     const response = await clienteAxios.get(`/properties/${id}`);
     return response.data;
   } catch (error) {
-    console.log(error);
+  
     throw error;
   }
 };
@@ -56,7 +56,7 @@ export const createProperty = async (property) => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+
     throw error;
   }
 };

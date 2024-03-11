@@ -22,6 +22,7 @@ import { useLocationStore } from "./store/locationStore";
 import { Preline } from "./Preline";
 import { ReservationPage } from "./pages/reservations/ReservationPage";
 import { ReservationDetailsPage } from "./pages/reservations/ReservationDetailsPage";
+import { Register } from "./pages/RegisterPage";
 
 
 
@@ -58,6 +59,7 @@ function App() {
           path="/"
            element={<LoginPage />}
         />
+        <Route path="/register" element={<Register />} />
         {/* <Route path="login" element={<LoginPage />} /> */}
 
         <Route

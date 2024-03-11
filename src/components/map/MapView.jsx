@@ -103,7 +103,7 @@ const MapView = ({handleLocation,currentLocation}) => {
       }));
       
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
    
   }
