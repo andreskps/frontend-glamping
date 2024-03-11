@@ -54,12 +54,12 @@ const SidebarApp = () => {
         },
       ],
     },
-    {
-      name: "Reportes",
-      icon: <HiOutlineDocumentReport />,
-      link: "/admin/reportes",
-      subLinks: [],
-    },
+    // {
+    //   name: "Reportes",
+    //   icon: <HiOutlineDocumentReport />,
+    //   link: "/admin/reportes",
+    //   subLinks: [],
+    // },
   ];
 
   return (
