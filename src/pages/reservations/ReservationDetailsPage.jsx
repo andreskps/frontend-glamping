@@ -23,7 +23,7 @@ export const ReservationDetailsPage = () => {
             <div>
              <img 
               className=""
-              src="/public/logo.jpg" 
+              src="/logo.jpg" 
               />
 
 
